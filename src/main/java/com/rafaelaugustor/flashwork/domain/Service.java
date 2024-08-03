@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -32,6 +34,9 @@ public class Service {
     @ManyToOne
     @JoinColumn(name = "provider_id")
     private User provider;
+
+    @ManyToMany(mappedBy = "services")
+    private Set<Category> categories = new HashSet<>();
 
     @CreationTimestamp
     private Timestamp createdAt;
