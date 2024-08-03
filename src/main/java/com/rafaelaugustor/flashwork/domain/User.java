@@ -2,7 +2,10 @@ package com.rafaelaugustor.flashwork.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -37,4 +40,8 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Education> education;
+
+    @OneToMany(mappedBy = "provider")
+    private List<Service> services;
+
 }
