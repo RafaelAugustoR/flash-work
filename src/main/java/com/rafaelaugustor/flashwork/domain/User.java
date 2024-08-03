@@ -1,12 +1,10 @@
 package com.rafaelaugustor.flashwork.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -36,4 +34,7 @@ public class User {
     private String profilePicture;
 
     private Date birthDate;
+
+    @OneToMany(mappedBy = "user")
+    private List<Education> education;
 }

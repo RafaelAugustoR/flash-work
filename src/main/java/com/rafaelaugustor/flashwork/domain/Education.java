@@ -18,9 +18,14 @@ public class Education {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private Date degree;
+    private String degree;
 
     private Date yearOfCompletion;
 
     private String institution;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
 }
