@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.UUID;
 
@@ -28,4 +30,6 @@ public class Education {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @CreationTimestamp
+    private Timestamp createdAt;
 }

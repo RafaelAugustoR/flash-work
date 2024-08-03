@@ -33,4 +33,6 @@ public class Service {
     @JoinColumn(name = "provider_id")
     private User provider;
 
+    @CreationTimestamp
+    private Timestamp createdAt;
 }

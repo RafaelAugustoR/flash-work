@@ -44,4 +44,9 @@ public class User {
     @OneToMany(mappedBy = "provider")
     private List<Service> services;
 
+    @CreationTimestamp
+    private Timestamp createdAt;
+
+    @UpdateTimestamp
+    private Timestamp updatedAt;
 }
