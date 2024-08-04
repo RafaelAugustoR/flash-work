@@ -19,13 +19,17 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
+    @Column(nullable = false)
     private LocalDateTime date;
 
+    @Column(nullable = false)
     private Boolean isViewed;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private NotificationType notificationType;
 
     @ManyToOne

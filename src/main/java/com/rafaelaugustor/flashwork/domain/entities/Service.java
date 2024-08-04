@@ -22,24 +22,30 @@ public class Service {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(nullable = false, length = 80)
     private String title;
 
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
+    @Column(nullable = false)
     private Double price;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private WorkType workType;
 
+    @Column(nullable = false, length = 50)
     private String location;
 
+    @CreationTimestamp
+    private Timestamp createdAt;
+
     @ManyToOne
-    @JoinColumn(name = "provider_id")
+    @JoinColumn(name = "provider_id", nullable = false)
     private User provider;
 
     @ManyToMany(mappedBy = "services")
     private Set<Category> categories = new HashSet<>();
 
-    @CreationTimestamp
-    private Timestamp createdAt;
 }

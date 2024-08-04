@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -22,16 +22,19 @@ public class Education {
     private UUID id;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private DegreeType degreeType;
 
-    private Date yearOfCompletion;
+    @Column(nullable = false)
+    private LocalDate yearOfCompletion;
 
+    @Column(nullable = false, length = 100)
     private String institution;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 
     @CreationTimestamp
     private Timestamp createdAt;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 }

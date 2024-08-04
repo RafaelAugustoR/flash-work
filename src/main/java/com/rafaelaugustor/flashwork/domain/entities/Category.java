@@ -19,6 +19,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(nullable = false, unique = true, length = 50)
     private String name;
 
     @ManyToMany

@@ -20,13 +20,17 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(nullable = false)
     private Double rating;
 
+    @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Column(nullable = false)
     private UUID targetId;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private ReviewType reviewType;
 
     @CreationTimestamp
@@ -35,5 +39,4 @@ public class Review {
     @ManyToOne
     @JoinColumn(name = "reviewer_id", nullable = false)
     private User reviewer;
-
 }
