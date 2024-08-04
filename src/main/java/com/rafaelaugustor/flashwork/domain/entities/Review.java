@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Entity
@@ -22,6 +24,9 @@ public class Review {
     private String description;
 
     private UUID targetId;
+
+    @CreationTimestamp
+    private Timestamp createdAt;
 
     @ManyToOne
     @JoinColumn(name = "reviewer_id", nullable = false)
