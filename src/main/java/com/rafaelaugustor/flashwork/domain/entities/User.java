@@ -1,5 +1,6 @@
 package com.rafaelaugustor.flashwork.domain.entities;
 
+import com.rafaelaugustor.flashwork.domain.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -38,6 +39,9 @@ public class User {
     private String profilePicture;
 
     private Date birthDate;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 
     @OneToMany(mappedBy = "user")
     private List<Education> education;
