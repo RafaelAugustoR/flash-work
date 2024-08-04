@@ -1,5 +1,6 @@
 package com.rafaelaugustor.flashwork.domain.entities;
 
+import com.rafaelaugustor.flashwork.domain.enums.DegreeType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +21,7 @@ public class Education {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private String degree;
+    private DegreeType degreeType;
 
     private Date yearOfCompletion;
 
