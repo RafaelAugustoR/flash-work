@@ -45,6 +45,9 @@ public class User {
     @OneToMany(mappedBy = "provider")
     private List<Service> services;
 
+    @OneToMany(mappedBy = "reviewer")
+    private List<Review> reviews;
+
     @CreationTimestamp
     private Timestamp createdAt;
 

@@ -23,5 +23,8 @@ public class Review {
 
     private UUID targetId;
 
+    @ManyToOne
+    @JoinColumn(name = "reviewer_id", nullable = false)
+    private User reviewer;
 
 }
