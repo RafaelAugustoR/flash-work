@@ -1,5 +1,6 @@
 package com.rafaelaugustor.flashwork.domain.entities;
 
+import com.rafaelaugustor.flashwork.domain.enums.NotificationType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +24,9 @@ public class Notification {
     private LocalDateTime date;
 
     private Boolean isViewed;
+
+    @Enumerated(EnumType.STRING)
+    private NotificationType notificationType;
 
     @ManyToOne
     @JoinColumn(name = "sender_id", nullable = false)
