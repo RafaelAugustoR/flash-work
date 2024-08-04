@@ -20,7 +20,7 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private Integer rating;
+    private Double rating;
 
     private String description;
 
