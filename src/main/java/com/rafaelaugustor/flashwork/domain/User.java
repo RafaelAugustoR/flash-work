@@ -53,4 +53,10 @@ public class User {
 
     @UpdateTimestamp
     private Timestamp updatedAt;
+
+    @OneToMany(mappedBy = "sender")
+    private List<Notification> sentNotifications;
+
+    @OneToMany(mappedBy = "receiver")
+    private List<Notification> receivedNotifications;
 }
