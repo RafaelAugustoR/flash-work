@@ -1,5 +1,6 @@
 package com.rafaelaugustor.flashwork.domain.entities;
 
+import com.rafaelaugustor.flashwork.domain.enums.ReviewType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,6 +25,8 @@ public class Review {
     private String description;
 
     private UUID targetId;
+
+    private ReviewType reviewType;
 
     @CreationTimestamp
     private Timestamp createdAt;
