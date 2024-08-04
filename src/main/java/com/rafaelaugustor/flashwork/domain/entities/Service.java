@@ -1,5 +1,6 @@
 package com.rafaelaugustor.flashwork.domain.entities;
 
+import com.rafaelaugustor.flashwork.domain.enums.WorkType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,7 +28,8 @@ public class Service {
 
     private Double price;
 
-    private String workType;
+    @Enumerated(EnumType.STRING)
+    private WorkType workType;
 
     private String location;
 
