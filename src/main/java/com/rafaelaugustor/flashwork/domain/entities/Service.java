@@ -1,4 +1,4 @@
-package com.rafaelaugustor.flashwork.domain;
+package com.rafaelaugustor.flashwork.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
