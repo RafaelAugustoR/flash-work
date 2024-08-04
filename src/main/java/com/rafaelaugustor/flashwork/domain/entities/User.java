@@ -44,10 +44,10 @@ public class User implements UserDetails {
     @Column(nullable = false, unique = true, length = 15)
     private String phone;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = true, length = 50)
     private String profession;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = true, columnDefinition = "TEXT")
     private String description;
 
     @Column(nullable = true)

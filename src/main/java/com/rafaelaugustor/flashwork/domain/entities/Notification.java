@@ -3,6 +3,7 @@ package com.rafaelaugustor.flashwork.domain.entities;
 import com.rafaelaugustor.flashwork.domain.enums.NotificationType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Notification {
 
     @Id
