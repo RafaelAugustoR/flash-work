@@ -30,6 +30,7 @@ public class AuthService {
                 .cpf(request.getCpf())
                 .phone(request.getPhone())
                 .email(request.getEmail())
+                .birthDate(request.getBirthDate())
                 .profession(request.getProfession())
                 .description(request.getDescription())
                 .password(request.getPassword())
