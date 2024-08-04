@@ -26,6 +26,7 @@ public class Review {
 
     private UUID targetId;
 
+    @Enumerated(EnumType.STRING)
     private ReviewType reviewType;
 
     @CreationTimestamp
