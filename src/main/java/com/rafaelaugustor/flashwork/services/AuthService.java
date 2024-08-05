@@ -5,6 +5,7 @@ import com.rafaelaugustor.flashwork.domain.enums.UserRole;
 import com.rafaelaugustor.flashwork.repositories.UserRepository;
 import com.rafaelaugustor.flashwork.rest.dtos.request.RegisterRequestDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,16 +13,16 @@ import org.springframework.stereotype.Service;
 public class AuthService {
 
     private final UserRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
-    public void register(RegisterRequestDTO request){
-
+    public void register(RegisterRequestDTO request) {
         User user = repository.findByEmail(request.getEmail());
 
-        if(user != null){
+        if (user != null) {
             throw new RuntimeException("Already registered");
         }
 
-        if (!request.getPassword().equals(request.getConfirmPassword())){
+        if (!request.getPassword().equals(request.getConfirmPassword())) {
             throw new RuntimeException("Password don't matches");
         }
 
@@ -33,12 +34,10 @@ public class AuthService {
                 .birthDate(request.getBirthDate())
                 .profession(request.getProfession())
                 .description(request.getDescription())
-                .password(request.getPassword())
-                .profilePicture(request.getProfilePicture())
+                .password(passwordEncoder.encode(request.getPassword()))
                 .role(UserRole.CUSTOMER)
                 .build();
 
         repository.save(userToSave);
-
     }
 }
