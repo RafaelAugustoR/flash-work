@@ -1,5 +1,6 @@
 package com.rafaelaugustor.flashwork.config;
 
+import com.rafaelaugustor.flashwork.rest.handlers.OAuthAuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
