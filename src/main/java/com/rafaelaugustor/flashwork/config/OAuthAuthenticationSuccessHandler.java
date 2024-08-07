@@ -3,7 +3,6 @@ package com.rafaelaugustor.flashwork.config;
 import com.rafaelaugustor.flashwork.domain.entities.User;
 import com.rafaelaugustor.flashwork.domain.enums.UserRole;
 import com.rafaelaugustor.flashwork.repositories.UserRepository;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -30,7 +29,7 @@ public class OAuthAuthenticationSuccessHandler implements AuthenticationSuccessH
     private final DefaultRedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         logger.info("OAuthAuthenticationSuccessHandler triggered");
 
         OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
