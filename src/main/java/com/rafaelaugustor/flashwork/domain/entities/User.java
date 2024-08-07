@@ -39,10 +39,10 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false, unique = true, length = 14, updatable = false)
+    @Column(nullable = true, unique = true, length = 14, updatable = false)
     private String cpf;
 
-    @Column(nullable = false, unique = true, length = 15)
+    @Column(nullable = true, unique = true, length = 15)
     private String phone;
 
     @Column(nullable = true, length = 50)
@@ -54,7 +54,7 @@ public class User implements UserDetails {
     @Column(nullable = true)
     private String profilePicture;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDate birthDate;
 
     @Enumerated(EnumType.STRING)
