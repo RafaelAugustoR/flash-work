@@ -1,5 +1,6 @@
 package com.rafaelaugustor.flashwork.services;
 
+import com.rafaelaugustor.flashwork.broker.producers.EmailProducer;
 import com.rafaelaugustor.flashwork.domain.entities.User;
 import com.rafaelaugustor.flashwork.repositories.UserRepository;
 import com.rafaelaugustor.flashwork.rest.dtos.request.EmailRequestDTO;
@@ -20,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class PasswordService {
 
-    private final EmailService emailService;
+    private final EmailProducer producer;
 
     private final UserRepository userRepository;
 
@@ -67,7 +68,7 @@ public class PasswordService {
                 .subject("Your OTP request:")
                 .text(otp)
                 .build();
-        emailService.sendEmail(request);
+        producer.sendEmail(request);
     }
 
     private String generateOtp() {
