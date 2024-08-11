@@ -1,5 +1,6 @@
 package com.rafaelaugustor.flashwork.config;
 
+import com.rafaelaugustor.flashwork.domain.enums.UserRole;
 import com.rafaelaugustor.flashwork.rest.handlers.OAuthAuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -37,6 +38,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**", "/oauth2/**", "/api/forgot-password/**").permitAll()
+                        .requestMatchers("/api/user/all").hasRole(UserRole.ADMIN.getRole())
+                        .requestMatchers("/api/user/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
