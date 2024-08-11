@@ -30,6 +30,12 @@ public class Education {
     @Column(nullable = false)
     private LocalDate yearOfCompletion;
 
+    @Column(nullable = false)
+    private LocalDate yearOfInitiation;
+
+    @Column(nullable = false, length = 100)
+    private String course;
+
     @Column(nullable = false, length = 100)
     private String institution;
 
