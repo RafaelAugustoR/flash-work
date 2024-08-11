@@ -57,7 +57,7 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public UserResponseDTO getUser(User user){
+    public UserResponseDTO getUser(User user) {
 
         return UserResponseDTO.builder()
                 .id(user.getId())
