@@ -7,11 +7,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum DegreeType {
 
-    BACHELOR("Bachelor"),
-    MASTER("Master"),
-    DOCTORATE("Doctorate"),
-    ASSOCIATE("Associate"),
-    DIPLOMA("Diploma");
+    BACHELOR("BACHELOR"),
+    MASTER("MASTER"),
+    DOCTORATE("DOCTORATE"),
+    ASSOCIATE("ASSOCIATE"),
+    DIPLOMA("DIPLOMA");
 
     private final String degree;
 }
