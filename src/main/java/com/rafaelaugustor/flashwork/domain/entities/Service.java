@@ -47,7 +47,12 @@ public class Service {
     @JoinColumn(name = "provider_id", nullable = false)
     private User provider;
 
-    @ManyToMany(mappedBy = "services")
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "category_service",
+            joinColumns = @JoinColumn(name = "service_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
     private Set<Category> categories = new HashSet<>();
 
 }
