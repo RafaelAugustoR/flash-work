@@ -14,7 +14,7 @@ import java.util.UUID;
 import static com.rafaelaugustor.flashwork.utils.Constants.APP_ROOT;
 
 @RestController
-@RequestMapping(APP_ROOT + "/education")
+@RequestMapping(APP_ROOT + "/educations")
 @RequiredArgsConstructor
 public class EducationController {
 
