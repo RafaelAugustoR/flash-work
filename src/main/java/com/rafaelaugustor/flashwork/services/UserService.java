@@ -22,7 +22,7 @@ public class UserService {
     public UserResponseDTO findUserByToken(Principal principal) {
         User user = repository.findByEmail(principal.getName());
 
-        return getUser(user);
+        return toResponseDTO(user);
     }
 
     public void update(UserRequestDTO request, Principal principal) {
@@ -47,17 +47,17 @@ public class UserService {
         User user = repository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
-        return getUser(user);
+        return toResponseDTO(user);
     }
 
     public List<UserResponseDTO> listAllUsers() {
         List<User> users = repository.findAll();
         return users.stream()
-                .map(this::getUser)
+                .map(this::toResponseDTO)
                 .collect(Collectors.toList());
     }
 
-    public UserResponseDTO getUser(User user) {
+    public UserResponseDTO toResponseDTO(User user) {
 
         return UserResponseDTO.builder()
                 .id(user.getId())

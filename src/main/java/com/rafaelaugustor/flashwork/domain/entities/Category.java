@@ -24,7 +24,7 @@ public class Category {
     @Column(nullable = false, unique = true, length = 50)
     private String name;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "category_service",
             joinColumns = @JoinColumn(name = "category_id"),
