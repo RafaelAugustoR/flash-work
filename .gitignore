@@ -36,3 +36,4 @@ build
 !/**/src/**/build
 lib/
 target
+/et --soft HEAD~1
