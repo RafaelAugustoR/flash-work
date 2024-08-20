@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.UUID;
 
 import static com.rafaelaugustor.flashwork.utils.Constants.APP_ROOT;
@@ -26,11 +27,16 @@ public class ServiceController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ServiceResponseDTO> getService(@PathVariable UUID id, Principal principal) {
+    public ResponseEntity<ServiceResponseDTO> getService(@PathVariable UUID id) {
 
         var service = serviceService.findServiceById(id);
 
         return ResponseEntity.ok().body(service);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<ServiceResponseDTO>> findServicesByCategory(@RequestParam UUID categoryId) {
+        return ResponseEntity.ok().body(serviceService.findServicesByCategory(categoryId));
     }
 
     @PutMapping("/{id}")

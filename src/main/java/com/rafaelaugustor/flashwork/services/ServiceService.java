@@ -11,7 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -36,7 +37,7 @@ public class ServiceService {
                 .workType(request.getWorkType())
                 .location(request.getLocation())
                 .provider(user)
-                .categories(new HashSet<>(categories))
+                .categories(new ArrayList<>(categories))
                 .build();
 
         serviceRepository.save(service);
@@ -53,7 +54,7 @@ public class ServiceService {
             service.setPrice(request.getPrice());
             service.setWorkType(request.getWorkType());
             service.setLocation(request.getLocation());
-            service.setCategories(new HashSet<>(categories));
+            service.setCategories(new ArrayList<>(categories));
 
             serviceRepository.save(service);
         }
@@ -76,6 +77,15 @@ public class ServiceService {
         return toResponseDTO(service);
     }
 
+    public List<ServiceResponseDTO> findServicesByCategory(UUID categoryId) {
+        List<Service> services = serviceRepository.findAllByCategoriesId(categoryId);
+
+        return services.stream()
+                .map(this::toResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+
     private ServiceResponseDTO toResponseDTO(Service service) {
         return ServiceResponseDTO.builder()
                 .id(service.getId())
@@ -86,7 +96,7 @@ public class ServiceService {
                 .location(service.getLocation())
                 .createdAt(service.getCreatedAt())
                 .providerId(service.getProvider().getId())
-                .categories(service.getCategories().stream().map(Category::getName).collect(Collectors.toList()))
+                .categories(service.getCategories().stream().map(Category::getName).toList())
                 .build();
     }
 }
