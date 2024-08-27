@@ -26,7 +26,7 @@ public class ReviewService {
 
     private final ServiceRepository serviceRepository;
 
-    public void save(ReviewRequestDTO request, Principal principal) {
+    public void createReview(ReviewRequestDTO request, Principal principal) {
 
         User user = userRepository.findByEmail(principal.getName());
 
@@ -44,18 +44,26 @@ public class ReviewService {
     }
 
     public List<ReviewResponseDTO> findReviewByTargetId(UUID targetId) {
-
-        List<Review> reviews = reviewRepository.findReviewsByTargetId(targetId);
-
+        List<Review> reviews = reviewRepository.findByTargetId(targetId);
         return reviews.stream()
                 .map(this::toResponseDTO)
                 .collect(Collectors.toList());
     }
 
+    public void updateReview(UUID reviewId, ReviewRequestDTO request, Principal principal) {
+
+        var review = reviewRepository.findByIdAndReviewerEmail(reviewId, principal.getName());
+
+        review.setDescription(request.getDescription());
+        review.setRating(request.getRating());
+
+        reviewRepository.save(review);
+    }
+
     private ReviewResponseDTO toResponseDTO(Review review) {
         return ReviewResponseDTO.builder()
                 .id(review.getId())
-                .reviewer(review.getReviewer())
+                .reviewerName(review.getReviewer().getName())
                 .description(review.getDescription())
                 .rating(review.getRating())
                 .createdAt(review.getCreatedAt())
