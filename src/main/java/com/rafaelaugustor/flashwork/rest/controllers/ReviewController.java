@@ -26,14 +26,14 @@ public class ReviewController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<List<ReviewResponseDTO>> findReviewByTargetId(@PathVariable UUID id) {
-        return ResponseEntity.ok(reviewService.findReviewByTargetId(id));
+    @GetMapping("/{targetId}")
+    public ResponseEntity<List<ReviewResponseDTO>> findReviewByTargetId(@PathVariable UUID targetId) {
+        return ResponseEntity.ok(reviewService.findReviewByTargetId(targetId));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<List<ReviewResponseDTO>> findReviewsByReviewer(@PathVariable UUID id){
-        return ResponseEntity.ok(reviewService.findReviewsByReviewer(id));
+    @GetMapping("/{reviewerId}")
+    public ResponseEntity<List<ReviewResponseDTO>> findReviewsByReviewer(@PathVariable UUID reviewerId){
+        return ResponseEntity.ok(reviewService.findReviewsByReviewer(reviewerId));
     }
 
     @PutMapping("/update/{id}")
