@@ -50,6 +50,13 @@ public class ReviewService {
                 .collect(Collectors.toList());
     }
 
+    public List<ReviewResponseDTO> findReviewsByReviewer(UUID reviewerId) {
+        List<Review> reviews = reviewRepository.findByReviewerId(reviewerId);
+        return reviews.stream()
+                .map(this::toResponseDTO)
+                .collect(Collectors.toList());
+    }
+
     public void updateReview(UUID reviewId, ReviewRequestDTO request, Principal principal) {
 
         var review = reviewRepository.findByIdAndReviewerEmail(reviewId, principal.getName());
@@ -58,6 +65,12 @@ public class ReviewService {
         review.setRating(request.getRating());
 
         reviewRepository.save(review);
+    }
+
+    public void deleteReview(UUID reviewId, Principal principal) {
+        var review = reviewRepository.findByIdAndReviewerEmail(reviewId, principal.getName());
+        
+        reviewRepository.delete(review);
     }
 
     private ReviewResponseDTO toResponseDTO(Review review) {
