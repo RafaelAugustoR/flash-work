@@ -28,5 +28,5 @@ public class ReviewResponseDTO {
 
     private UUID targetId;
 
-    private User reviewer;
+    private String reviewerName;
 }
