@@ -82,6 +82,15 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "receiver")
     private List<Notification> receivedNotifications;
 
+    @OneToMany(mappedBy = "requester")
+    private List<ServiceRequest> serviceRequests;
+
+    @OneToMany(mappedBy = "sender")
+    private List<Message> sentMessages;
+
+    @OneToMany(mappedBy = "receiver")
+    private List<Message> receivedMessages;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_" + role));
