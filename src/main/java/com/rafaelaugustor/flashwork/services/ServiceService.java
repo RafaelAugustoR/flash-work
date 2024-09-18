@@ -28,7 +28,7 @@ public class ServiceService {
     public void createService(ServiceRequestDTO request, Principal principal) {
         var user = userRepository.findByEmail(principal.getName());
 
-        var categories = categoryRepository.findAllById(request.getCategoryIds());
+        var categories = categoryRepository.findAllById(request.getCategories());
 
         var service = Service.builder()
                 .title(request.getTitle())
@@ -47,7 +47,7 @@ public class ServiceService {
         var service = serviceRepository.findByIdAndProviderEmail(serviceId, principal.getName());
 
         if (service != null) {
-            var categories = categoryRepository.findAllById(request.getCategoryIds());
+            var categories = categoryRepository.findAllById(request.getCategories());
 
             service.setTitle(request.getTitle());
             service.setDescription(request.getDescription());

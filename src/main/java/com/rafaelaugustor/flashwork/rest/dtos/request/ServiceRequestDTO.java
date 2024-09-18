@@ -19,5 +19,5 @@ public class ServiceRequestDTO {
     private Double price;
     private WorkType workType;
     private String location;
-    private List<UUID> categoryIds;
+    private List<UUID> categories;
 }
