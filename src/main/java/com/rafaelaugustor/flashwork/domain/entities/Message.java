@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 import java.util.UUID;
@@ -25,13 +26,14 @@ public class Message {
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "sender_id", nullable = false)
-    private User sender;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @ManyToOne
-    @JoinColumn(name = "receiver_id", nullable = false)
-    private User receiver;
+    @JoinColumn(name = "chat_id", nullable = false)
+    private Chat chat;
 
+    @CreationTimestamp
     private Timestamp sentAt;
 
     private Timestamp readAt;
