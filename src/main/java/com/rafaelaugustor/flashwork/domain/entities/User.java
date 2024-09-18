@@ -16,6 +16,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -85,11 +86,11 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "requester")
     private List<ServiceRequest> serviceRequests;
 
-    @OneToMany(mappedBy = "sender")
+    @OneToMany(mappedBy = "user")
     private List<Message> sentMessages;
 
-    @OneToMany(mappedBy = "receiver")
-    private List<Message> receivedMessages;
+    @ManyToMany(mappedBy = "users")
+    private List<Chat> chats;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
