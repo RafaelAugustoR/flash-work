@@ -54,7 +54,7 @@ public class OAuthAuthenticationSuccessHandler implements AuthenticationSuccessH
 
         String token = tokenService.generateToken(user);
 
-        String redirectUrl = "http://localhost:5173/callback?token=" + token;
+        String redirectUrl = "http://localhost:5173/?token=" + token;
         response.sendRedirect(redirectUrl);
 
         log.info("User {} successfully authenticated w/ token {}", user.getEmail(), token);
