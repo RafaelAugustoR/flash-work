@@ -5,12 +5,11 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum ServiceRequestStatus {
-    PENDING("PENDING"),
-    ACCEPTED("ACCEPTED"),
-    REJECTED("REJECTED"),
-    COMPLETED("COMPLETED"),
-    CANCELLED("CANCELLED");
+public enum ServiceStatus {
+
+    OPEN("ABERTO"),
+    IN_PROGRESS("EM ANDAMENTO"),
+    FINALIZED("FINALIZADO");
 
     private final String status;
 }

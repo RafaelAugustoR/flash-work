@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,7 +17,8 @@ import java.util.UUID;
 public class ServiceRequestDTO {
     private String title;
     private String description;
-    private Double price;
+    private String budget;
+    private LocalDate deadline;
     private WorkType workType;
     private String location;
     private List<UUID> categories;

@@ -1,5 +1,6 @@
 package com.rafaelaugustor.flashwork.domain.entities;
 
+import com.rafaelaugustor.flashwork.domain.enums.ServiceStatus;
 import com.rafaelaugustor.flashwork.domain.enums.WorkType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.*;
 
 @Entity
@@ -29,7 +31,10 @@ public class Service {
     private String description;
 
     @Column(nullable = false)
-    private Double price;
+    private String budget;
+
+    @Column(nullable = false)
+    private LocalDate deadline;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -38,12 +43,16 @@ public class Service {
     @Column(nullable = false, length = 50)
     private String location;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ServiceStatus status;
+
     @CreationTimestamp
     private Timestamp createdAt;
 
     @ManyToOne
-    @JoinColumn(name = "provider_id", nullable = false)
-    private User provider;
+    @JoinColumn(name = "client_id", nullable = false)
+    private User client;
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinTable(
