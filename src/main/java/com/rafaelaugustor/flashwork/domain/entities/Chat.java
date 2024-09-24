@@ -19,7 +19,7 @@ public class Chat {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_chat",
             joinColumns = @JoinColumn(name = "chat_id"),
