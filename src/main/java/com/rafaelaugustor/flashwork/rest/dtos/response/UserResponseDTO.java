@@ -35,4 +35,10 @@ public class UserResponseDTO {
     private LocalDate birthDate;
 
     private UserRole role;
+
+    public UserResponseDTO(UUID id, String name, String email) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+    }
 }
