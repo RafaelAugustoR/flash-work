@@ -21,7 +21,6 @@ public class UserService {
 
     public UserResponseDTO findUserByToken(Principal principal) {
         User user = repository.findByEmail(principal.getName());
-
         return toResponseDTO(user);
     }
 
@@ -72,5 +71,4 @@ public class UserService {
                 .profession(user.getProfession())
                 .build();
     }
-
 }
