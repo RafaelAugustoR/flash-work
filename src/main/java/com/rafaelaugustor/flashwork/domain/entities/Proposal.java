@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -15,7 +16,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ServiceRequest {
+public class Proposal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -26,15 +27,21 @@ public class ServiceRequest {
     private Service service;
 
     @ManyToOne
-    @JoinColumn(name = "requester_id", nullable = false)
-    private User requester;
+    @JoinColumn(name = "freelancer_id", nullable = false)
+    private User freelancer;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ServiceRequestStatus status;
 
-    @Column(nullable = true, columnDefinition = "TEXT")
-    private String description;
+    @Column(nullable = false)
+    private Double offerAmount;
+
+    @Column(nullable = false)
+    private LocalDate estimatedCompletionTime;
+
+    @Column(columnDefinition = "TEXT")
+    private String message  ;
 
     @Column(nullable = false)
     private Timestamp requestedAt;
