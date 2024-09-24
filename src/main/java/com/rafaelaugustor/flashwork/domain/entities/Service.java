@@ -51,8 +51,8 @@ public class Service {
     private Timestamp createdAt;
 
     @ManyToOne
-    @JoinColumn(name = "provider_id", nullable = false)
-    private User provider;
+    @JoinColumn(name = "client_id", nullable = false)
+    private User client;
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinTable(
