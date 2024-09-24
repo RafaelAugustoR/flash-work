@@ -51,7 +51,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "api/services/{id}").authenticated()
                         .requestMatchers(HttpMethod.GET, "api/services/all").permitAll()
                         .requestMatchers(HttpMethod.GET, "api/services/{id}").permitAll()
-                        .requestMatchers("api/service-request/**").authenticated()
+                        .requestMatchers("api/proposal/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
