@@ -70,7 +70,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Education> education;
 
-    @OneToMany(mappedBy = "provider")
+    @OneToMany(mappedBy = "client")
     private List<Service> services;
 
     @OneToMany(mappedBy = "reviewer")
