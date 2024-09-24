@@ -8,8 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum ProposalStatus {
     PENDING("AGUARDANDO"),
     ACCEPTED("ACEITO"),
-    REJECTED("REJEITADO"),
-    CANCELLED("CANCELLED");
+    REJECTED("REJEITADO");
 
     private final String status;
 }
