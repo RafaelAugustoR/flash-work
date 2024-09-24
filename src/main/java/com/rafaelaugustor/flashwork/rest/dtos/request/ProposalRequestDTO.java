@@ -5,13 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ServiceRequestRequestDTO {
+public class ProposalRequestDTO {
     private UUID serviceId;
-    private String description;
+    private String message;
+    private Double offerAmount;
+    private LocalDate estimatedCompletionTime;
 }
