@@ -82,8 +82,8 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "receiver")
     private List<Notification> receivedNotifications;
 
-    @OneToMany(mappedBy = "requester")
-    private List<ServiceRequest> serviceRequests;
+    @OneToMany(mappedBy = "freelancer")
+    private List<Proposal> proposals;
 
     @OneToMany(mappedBy = "user")
     private List<Message> sentMessages;
