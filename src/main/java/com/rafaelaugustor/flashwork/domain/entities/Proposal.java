@@ -1,6 +1,6 @@
 package com.rafaelaugustor.flashwork.domain.entities;
 
-import com.rafaelaugustor.flashwork.domain.enums.ServiceRequestStatus;
+import com.rafaelaugustor.flashwork.domain.enums.ProposalStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,7 +32,7 @@ public class Proposal {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private ServiceRequestStatus status;
+    private ProposalStatus status;
 
     @Column(nullable = false)
     private Double offerAmount;
