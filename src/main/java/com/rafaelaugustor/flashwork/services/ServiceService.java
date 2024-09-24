@@ -33,10 +33,11 @@ public class ServiceService {
         var service = Service.builder()
                 .title(request.getTitle())
                 .description(request.getDescription())
-                .price(request.getPrice())
+                .budget(request.getBudget())
                 .workType(request.getWorkType())
+                .deadline(request.getDeadline())
                 .location(request.getLocation())
-                .provider(user)
+                .client(user)
                 .categories(new ArrayList<>(categories))
                 .build();
 
@@ -44,14 +45,15 @@ public class ServiceService {
     }
 
     public ServiceResponseDTO updateService(UUID serviceId, ServiceRequestDTO request, Principal principal) {
-        var service = serviceRepository.findByIdAndProviderEmail(serviceId, principal.getName());
+        var service = serviceRepository.findByIdAndClientEmail(serviceId, principal.getName());
 
         if (service != null) {
             var categories = categoryRepository.findAllById(request.getCategories());
 
             service.setTitle(request.getTitle());
             service.setDescription(request.getDescription());
-            service.setPrice(request.getPrice());
+            service.setBudget(request.getBudget());
+            service.setDeadline(request.getDeadline());
             service.setWorkType(request.getWorkType());
             service.setLocation(request.getLocation());
             service.setCategories(new ArrayList<>(categories));
@@ -64,7 +66,7 @@ public class ServiceService {
     }
 
     public void deleteService(UUID serviceId, Principal principal){
-        var service = serviceRepository.findByIdAndProviderEmail(serviceId, principal.getName());
+        var service = serviceRepository.findByIdAndClientEmail(serviceId, principal.getName());
 
         assert service != null;
         serviceRepository.delete(service);
@@ -85,17 +87,17 @@ public class ServiceService {
                 .collect(Collectors.toList());
     }
 
-
     private ServiceResponseDTO toResponseDTO(Service service) {
         return ServiceResponseDTO.builder()
                 .id(service.getId())
                 .title(service.getTitle())
                 .description(service.getDescription())
-                .price(service.getPrice())
+                .budget(service.getBudget())
+                .deadline(service.getDeadline())
                 .workType(service.getWorkType())
                 .location(service.getLocation())
                 .createdAt(service.getCreatedAt())
-                .providerId(service.getProvider().getId())
+                .providerId(service.getClient().getId())
                 .categories(service.getCategories().stream().map(Category::getName).toList())
                 .build();
     }
