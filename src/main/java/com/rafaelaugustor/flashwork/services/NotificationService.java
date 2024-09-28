@@ -23,8 +23,10 @@ public class NotificationService {
     private final SimpMessagingTemplate messagingTemplate;
     private final UserRepository userRepository;
 
-    public void sendNotification(NotificationRequestDTO request, Principal principal) {
-        User sender = userRepository.findByEmail(principal.getName());
+    public void sendNotification(NotificationRequestDTO request) {
+
+        User sender = userRepository.findById(request.getSender())
+                .orElseThrow(() -> new IllegalArgumentException("Receiver not found"));
         User receiver = userRepository.findById(request.getReceiver())
                 .orElseThrow(() -> new IllegalArgumentException("Receiver not found"));
 
@@ -32,7 +34,6 @@ public class NotificationService {
                 .content(request.getContent())
                 .date(LocalDateTime.now())
                 .isViewed(false)
-                .notificationType(request.getType())
                 .sender(sender)
                 .receiver(receiver)
                 .notificationType(NotificationType.ALERT)
