@@ -1,0 +1,40 @@
+package com.rafaelaugustor.flashwork.rest.controllers;
+
+import com.rafaelaugustor.flashwork.domain.entities.Notification;
+import com.rafaelaugustor.flashwork.services.NotificationService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
+import java.util.List;
+import java.util.UUID;
+
+import static com.rafaelaugustor.flashwork.utils.Constants.APP_ROOT;
+
+@RestController
+@RequestMapping(APP_ROOT + "/notifications")
+@RequiredArgsConstructor
+@CrossOrigin
+public class NotificationController {
+
+    private final NotificationService notificationService;
+
+    @GetMapping
+    public ResponseEntity<List<Notification>> getNotifications(Principal principal) {
+        List<Notification> notifications = notificationService.getNotificationsForUser(principal);
+        return ResponseEntity.ok(notifications);
+    }
+
+    @PostMapping("/{id}/viewed")
+    public ResponseEntity<Void> markAsViewed(@PathVariable UUID id) {
+        notificationService.markAsViewed(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteNotification(@PathVariable UUID id) {
+        notificationService.deleteNotification(id);
+        return ResponseEntity.noContent().build();
+    }
+}
