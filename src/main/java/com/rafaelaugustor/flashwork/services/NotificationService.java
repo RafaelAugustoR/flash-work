@@ -6,6 +6,7 @@ import com.rafaelaugustor.flashwork.domain.enums.NotificationType;
 import com.rafaelaugustor.flashwork.repositories.NotificationRepository;
 import com.rafaelaugustor.flashwork.repositories.UserRepository;
 import com.rafaelaugustor.flashwork.rest.dtos.request.NotificationRequestDTO;
+import com.rafaelaugustor.flashwork.rest.dtos.response.NotificationResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -44,9 +46,20 @@ public class NotificationService {
         messagingTemplate.convertAndSend("/topic/notifications/" + receiver.getId(), notification);
     }
 
-    public List<Notification> getNotificationsForUser(Principal principal) {
+    public List<NotificationResponseDTO> getNotificationsForUser(Principal principal) {
         User user = userRepository.findByEmail(principal.getName());
-        return notificationRepository.findByReceiverId(user.getId());
+        List<Notification> notifications = notificationRepository.findByReceiverId(user.getId());
+
+        return notifications.stream()
+                .map(notification -> new NotificationResponseDTO(
+                        notification.getId(),
+                        notification.getContent(),
+                        notification.getSender().getId(),
+                        notification.getIsViewed(),
+                        notification.getDate(),
+                        notification.getNotificationType()
+                ))
+                .collect(Collectors.toList());
     }
 
     public void markAsViewed(UUID notificationId) {
