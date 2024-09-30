@@ -20,6 +20,8 @@ public class CategoryService {
     public CategoryResponseDTO createCategory(CategoryRequestDTO request) {
         Category category = Category.builder()
                 .name(request.getName())
+                .description(request.getDescription())
+                .iconName(request.getIconName())
                 .build();
         Category categoryToSave = categoryRepository.save(category);
 
@@ -39,6 +41,8 @@ public class CategoryService {
         return CategoryResponseDTO.builder()
                 .id(updatedCategory.getId())
                 .name(updatedCategory.getName())
+                .description(category.getDescription())
+                .iconName(category.getIconName())
                 .build();
     }
 
@@ -53,6 +57,8 @@ public class CategoryService {
         return CategoryResponseDTO.builder()
                 .id(category.getId())
                 .name(category.getName())
+                .description(category.getDescription())
+                .iconName(category.getIconName())
                 .build();
     }
 
@@ -61,6 +67,8 @@ public class CategoryService {
                 .map(category -> CategoryResponseDTO.builder()
                         .id(category.getId())
                         .name(category.getName())
+                        .iconName(category.getIconName())
+                        .description(category.getDescription())
                         .build())
                 .collect(Collectors.toList());
     }

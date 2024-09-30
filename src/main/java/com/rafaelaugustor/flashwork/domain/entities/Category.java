@@ -24,6 +24,12 @@ public class Category {
     @Column(nullable = false, unique = true, length = 50)
     private String name;
 
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String description;
+
+    @Column(nullable = false, unique = true, length = 50)
+    private String iconName;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "category_service",
