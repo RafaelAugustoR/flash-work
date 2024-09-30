@@ -2,6 +2,7 @@ package com.rafaelaugustor.flashwork.services;
 
 import com.rafaelaugustor.flashwork.domain.entities.Category;
 import com.rafaelaugustor.flashwork.domain.entities.Service;
+import com.rafaelaugustor.flashwork.domain.enums.ServiceStatus;
 import com.rafaelaugustor.flashwork.repositories.CategoryRepository;
 import com.rafaelaugustor.flashwork.repositories.ServiceRepository;
 import com.rafaelaugustor.flashwork.repositories.UserRepository;
@@ -37,6 +38,7 @@ public class ServiceService {
                 .workType(request.getWorkType())
                 .deadline(request.getDeadline())
                 .location(request.getLocation())
+                .status(ServiceStatus.OPEN)
                 .client(user)
                 .categories(new ArrayList<>(categories))
                 .build();
