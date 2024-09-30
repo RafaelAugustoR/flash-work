@@ -62,6 +62,20 @@ public class NotificationService {
                 .collect(Collectors.toList());
     }
 
+    public NotificationResponseDTO getNotificationById(UUID id){
+
+        Notification notification = notificationRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Notification not found"));
+
+        return NotificationResponseDTO.builder()
+                .id(notification.getId())
+                .content(notification.getContent())
+                .isViewed(notification.getIsViewed())
+                .date(notification.getDate())
+                .notificationType(notification.getNotificationType())
+                .senderId(notification.getSender().getId())
+                .build();
+    }
+
     public void markAsViewed(UUID notificationId) {
         Notification notification = notificationRepository.findById(notificationId).orElseThrow();
         if (!notification.getIsViewed()){
