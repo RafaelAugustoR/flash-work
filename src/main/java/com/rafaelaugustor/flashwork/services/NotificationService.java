@@ -66,6 +66,11 @@ public class NotificationService {
 
         Notification notification = notificationRepository.findById(notificationId).orElseThrow(() -> new IllegalArgumentException("Notification not found"));
 
+        if (!notification.getIsViewed()) {
+            notification.setIsViewed(true);
+            notificationRepository.save(notification);
+        }
+
         return NotificationResponseDTO.builder()
                 .id(notification.getId())
                 .content(notification.getContent())
@@ -76,13 +81,6 @@ public class NotificationService {
                 .build();
     }
 
-    public void markAsViewed(UUID notificationId) {
-        Notification notification = notificationRepository.findById(notificationId).orElseThrow();
-        if (!notification.getIsViewed()){
-            notification.setIsViewed(true);
-            notificationRepository.save(notification);
-        }
-    }
 
     public void deleteNotification(UUID notificationId) {
         Notification notification = notificationRepository.findById(notificationId).orElseThrow(() -> new IllegalArgumentException("Notification not found"));
