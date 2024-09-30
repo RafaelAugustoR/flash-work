@@ -1,6 +1,6 @@
 package com.rafaelaugustor.flashwork.rest.controllers;
 
-import com.rafaelaugustor.flashwork.domain.entities.Notification;
+import com.rafaelaugustor.flashwork.rest.dtos.response.NotificationResponseDTO;
 import com.rafaelaugustor.flashwork.services.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +21,8 @@ public class NotificationController {
     private final NotificationService notificationService;
 
     @GetMapping
-    public ResponseEntity<List<Notification>> getNotifications(Principal principal) {
-        List<Notification> notifications = notificationService.getNotificationsForUser(principal);
+    public ResponseEntity<List<NotificationResponseDTO>> getNotifications(Principal principal) {
+        List<NotificationResponseDTO> notifications = notificationService.getNotificationsForUser(principal);
         return ResponseEntity.ok(notifications);
     }
 
