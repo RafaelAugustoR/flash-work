@@ -62,9 +62,9 @@ public class NotificationService {
                 .collect(Collectors.toList());
     }
 
-    public NotificationResponseDTO getNotificationById(UUID id){
+    public NotificationResponseDTO getNotificationById(UUID notificationId){
 
-        Notification notification = notificationRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Notification not found"));
+        Notification notification = notificationRepository.findById(notificationId).orElseThrow(() -> new IllegalArgumentException("Notification not found"));
 
         return NotificationResponseDTO.builder()
                 .id(notification.getId())

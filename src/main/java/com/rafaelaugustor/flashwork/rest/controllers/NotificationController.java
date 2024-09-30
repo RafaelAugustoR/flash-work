@@ -1,5 +1,6 @@
 package com.rafaelaugustor.flashwork.rest.controllers;
 
+import com.rafaelaugustor.flashwork.rest.dtos.response.ChatResponseDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.NotificationResponseDTO;
 import com.rafaelaugustor.flashwork.services.NotificationService;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,12 @@ public class NotificationController {
     public ResponseEntity<Void> markAsViewed(@PathVariable UUID id) {
         notificationService.markAsViewed(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{notificationId}")
+    public ResponseEntity<NotificationResponseDTO> getChatById(@PathVariable UUID notificationId) {
+        NotificationResponseDTO notification = notificationService.getNotificationById(notificationId);
+        return ResponseEntity.ok(notification);
     }
 
     @DeleteMapping("/{id}")
