@@ -46,7 +46,7 @@ public class NotificationService {
         messagingTemplate.convertAndSend("/topic/notifications/" + receiver.getId(), notification);
     }
 
-    public List<NotificationResponseDTO> getNotificationsForUser(Principal principal) {
+    public List<NotificationResponseDTO> findAllNotificationsByUser(Principal principal) {
         User user = userRepository.findByEmail(principal.getName());
         List<Notification> notifications = notificationRepository.findByReceiverId(user.getId());
 
@@ -62,7 +62,7 @@ public class NotificationService {
                 .collect(Collectors.toList());
     }
 
-    public NotificationResponseDTO getNotificationById(UUID notificationId){
+    public NotificationResponseDTO findById(UUID notificationId){
 
         Notification notification = notificationRepository.findById(notificationId).orElseThrow(() -> new IllegalArgumentException("Notification not found"));
 
@@ -82,7 +82,7 @@ public class NotificationService {
     }
 
 
-    public void deleteNotification(UUID notificationId) {
+    public void delete(UUID notificationId) {
         Notification notification = notificationRepository.findById(notificationId).orElseThrow(() -> new IllegalArgumentException("Notification not found"));
         notificationRepository.delete(notification);
     }

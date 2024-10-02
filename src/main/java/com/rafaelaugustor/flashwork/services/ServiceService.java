@@ -25,8 +25,7 @@ public class ServiceService {
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
 
-    @Transactional
-    public void createService(ServiceRequestDTO request, Principal principal) {
+    public void create(ServiceRequestDTO request, Principal principal) {
         var user = userRepository.findByEmail(principal.getName());
 
         var categories = categoryRepository.findAllById(request.getCategories());
@@ -46,7 +45,7 @@ public class ServiceService {
         serviceRepository.save(service);
     }
 
-    public ServiceResponseDTO updateService(UUID serviceId, ServiceRequestDTO request, Principal principal) {
+    public ServiceResponseDTO update(UUID serviceId, ServiceRequestDTO request, Principal principal) {
         var service = serviceRepository.findByIdAndClientEmail(serviceId, principal.getName());
 
         if (service != null) {
@@ -67,21 +66,21 @@ public class ServiceService {
         return toResponseDTO(service);
     }
 
-    public void deleteService(UUID serviceId, Principal principal){
+    public void delete(UUID serviceId, Principal principal){
         var service = serviceRepository.findByIdAndClientEmail(serviceId, principal.getName());
 
         assert service != null;
         serviceRepository.delete(service);
     }
 
-    public ServiceResponseDTO findServiceById(UUID serviceId){
+    public ServiceResponseDTO findById(UUID serviceId){
         Service service = serviceRepository.findById(serviceId).
                 orElseThrow(() -> new RuntimeException("Service not found"));
 
         return toResponseDTO(service);
     }
 
-    public List<ServiceResponseDTO> findServicesByCategory(UUID categoryId) {
+    public List<ServiceResponseDTO> findAllByCategory(UUID categoryId) {
         List<Service> services = serviceRepository.findAllByCategoriesId(categoryId);
 
         return services.stream()
@@ -96,7 +95,7 @@ public class ServiceService {
                 .description(service.getDescription())
                 .budget(service.getBudget())
                 .deadline(service.getDeadline())
-                .workType(service.getWorkType())
+                .workType(service.getWorkType().getType())
                 .location(service.getLocation())
                 .createdAt(service.getCreatedAt())
                 .providerId(service.getClient().getId())

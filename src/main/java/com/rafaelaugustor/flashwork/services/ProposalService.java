@@ -23,7 +23,7 @@ public class ProposalService {
     private final ServiceRepository serviceRepository;
     private final UserRepository userRepository;
 
-    public ProposalResponseDTO createProposal(ProposalRequestDTO request, Principal principal) {
+    public ProposalResponseDTO create(ProposalRequestDTO request, Principal principal) {
         var user = userRepository.findByEmail(principal.getName());
 
         var service = serviceRepository.findById(request.getServiceId())
@@ -44,7 +44,7 @@ public class ProposalService {
         return toResponseDTO(proposal);
     }
 
-    public ProposalResponseDTO updateProposalStatus(UUID proposalId, ProposalStatus status, Principal principal) {
+    public ProposalResponseDTO update(UUID proposalId, ProposalStatus status, Principal principal) {
         var proposal = proposalRepository.findById(proposalId)
                 .orElseThrow(() -> new IllegalArgumentException("Proposal not found"));
 

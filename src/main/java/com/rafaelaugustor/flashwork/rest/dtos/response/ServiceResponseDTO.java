@@ -20,7 +20,7 @@ public class ServiceResponseDTO {
     private String title;
     private String description;
     private String budget;
-    private WorkType workType;
+    private String workType;
     private LocalDate deadline;
     private String location;
     private Timestamp createdAt;

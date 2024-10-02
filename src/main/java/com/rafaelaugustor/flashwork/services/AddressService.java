@@ -68,7 +68,7 @@ public class AddressService {
         return toResponseDTO(address);
     }
 
-    public List<AddressResponseDTO> findAllAddresses(Principal principal) {
+    public List<AddressResponseDTO> findAll(Principal principal) {
         List<Address> addresses = addressRepository.findAllByUserEmail(principal.getName());
 
         return addresses.stream()

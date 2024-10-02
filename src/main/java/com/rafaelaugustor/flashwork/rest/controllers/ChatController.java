@@ -28,19 +28,19 @@ public class ChatController {
     public ResponseEntity<Void> createChat(@RequestBody ChatRequestDTO request, Principal principal) {
         User userOne = userRepository.findByEmail(principal.getName());
         User userTwo = userRepository.findById(request.getUserId()).orElseThrow(() -> new RuntimeException("User not found"));
-        chatService.createChat(userOne, userTwo);
+        chatService.create(userOne, userTwo);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping
-    public ResponseEntity<List<ChatResponseDTO>> getChatsForUser(Principal principal) {
+    public ResponseEntity<List<ChatResponseDTO>> findChatsByUserId(Principal principal) {
         User user = userRepository.findByEmail(principal.getName());
-        return ResponseEntity.ok().body(chatService.getChatsForUser(user));
+        return ResponseEntity.ok().body(chatService.findAllChatsByUser(user));
     }
 
     @GetMapping("/{chatId}")
-    public ResponseEntity<ChatResponseDTO> getChatById(@PathVariable UUID chatId) {
-        ChatResponseDTO chatResponseDTO = chatService.findChatById(chatId);
+    public ResponseEntity<ChatResponseDTO> findChatById(@PathVariable UUID chatId) {
+        ChatResponseDTO chatResponseDTO = chatService.findById(chatId);
         return ResponseEntity.ok(chatResponseDTO);
     }
 }

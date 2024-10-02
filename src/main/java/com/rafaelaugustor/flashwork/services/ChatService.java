@@ -22,7 +22,7 @@ public class ChatService {
     private final ChatRepository chatRepository;
     private final MessageRepository messageRepository;
 
-    public void createChat(User userOne, User userTwo) {
+    public void create(User userOne, User userTwo) {
         Optional<Chat> existingChat = chatRepository.findByUsers(userOne, userTwo);
         if (existingChat.isPresent()) {
             throw new RuntimeException("Chat already exists");
@@ -36,17 +36,17 @@ public class ChatService {
     }
 
     @Transactional
-    public List<ChatResponseDTO> getChatsForUser(User user) {
+    public List<ChatResponseDTO> findAllChatsByUser(User user) {
         return user.getChats().stream()
-                .map(this::convertToDTO)
+                .map(this::toResponseDTO)
                 .toList();
     }
 
-    public ChatResponseDTO findChatById(UUID chatId) {
+    public ChatResponseDTO findById(UUID chatId) {
         Chat chat = chatRepository.findById(chatId)
                 .orElseThrow(() -> new IllegalArgumentException("Chat not found"));
 
-        ChatResponseDTO chatResponseDTO = convertToDTO(chat);
+        ChatResponseDTO chatResponseDTO = toResponseDTO(chat);
 
         List<MessageResponseDTO> messages = messageRepository.findByChatOrderBySentAtAsc(chat).stream()
                 .map(message -> new MessageResponseDTO(
@@ -62,7 +62,7 @@ public class ChatService {
         return chatResponseDTO;
     }
 
-    private ChatResponseDTO convertToDTO(Chat chat) {
+    private ChatResponseDTO toResponseDTO(Chat chat) {
         return new ChatResponseDTO(
                 chat.getId(),
                 chat.getUsers().stream()

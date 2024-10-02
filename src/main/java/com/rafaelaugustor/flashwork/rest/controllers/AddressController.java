@@ -34,7 +34,7 @@ public class AddressController {
 
     @GetMapping
     public ResponseEntity<List<AddressResponseDTO>> findAllAddresses(Principal principal) {
-        List<AddressResponseDTO> addresses = addressService.findAllAddresses(principal);
+        List<AddressResponseDTO> addresses = addressService.findAll(principal);
         return ResponseEntity.ok().body(addresses);
     }
 
@@ -50,3 +50,4 @@ public class AddressController {
         return ResponseEntity.ok().build();
     }
 }
+
