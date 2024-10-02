@@ -67,7 +67,7 @@ public class ReviewService {
         reviewRepository.save(review);
     }
 
-    public void delete(UUID reviewId, Principal principal) {
+    public void delete  (UUID reviewId, Principal principal) {
         var review = reviewRepository.findByIdAndReviewerEmail(reviewId, principal.getName());
         
         reviewRepository.delete(review);

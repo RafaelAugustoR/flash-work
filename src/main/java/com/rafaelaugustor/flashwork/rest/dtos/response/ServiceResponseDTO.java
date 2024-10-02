@@ -1,6 +1,5 @@
 package com.rafaelaugustor.flashwork.rest.dtos.response;
 
-import com.rafaelaugustor.flashwork.domain.enums.WorkType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
