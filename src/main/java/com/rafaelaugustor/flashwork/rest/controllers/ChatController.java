@@ -1,7 +1,5 @@
 package com.rafaelaugustor.flashwork.rest.controllers;
 
-import com.rafaelaugustor.flashwork.domain.entities.User;
-import com.rafaelaugustor.flashwork.repositories.UserRepository;
 import com.rafaelaugustor.flashwork.rest.dtos.request.ChatRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.ChatResponseDTO;
 import com.rafaelaugustor.flashwork.services.ChatService;
@@ -22,20 +20,16 @@ import static com.rafaelaugustor.flashwork.utils.Constants.APP_ROOT;
 public class ChatController {
 
     private final ChatService chatService;
-    private final UserRepository userRepository;
 
     @PostMapping
-    public ResponseEntity<Void> createChat(@RequestBody ChatRequestDTO request, Principal principal) {
-        User userOne = userRepository.findByEmail(principal.getName());
-        User userTwo = userRepository.findById(request.getUserId()).orElseThrow(() -> new RuntimeException("User not found"));
-        chatService.create(userOne, userTwo);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<ChatResponseDTO> createChat(@RequestBody ChatRequestDTO request, Principal principal) {
+        ChatResponseDTO response = chatService.create(request, principal);
+        return ResponseEntity.ok().body(response);
     }
 
     @GetMapping
     public ResponseEntity<List<ChatResponseDTO>> findChatsByUserId(Principal principal) {
-        User user = userRepository.findByEmail(principal.getName());
-        return ResponseEntity.ok().body(chatService.findAllChatsByUser(user));
+        return ResponseEntity.ok().body(chatService.findAllChatsByUser(principal));
     }
 
     @GetMapping("/{chatId}")
