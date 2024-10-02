@@ -20,9 +20,6 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(nullable = true, length = 50)
-    private String country;
-
     @Column(nullable = false, length = 100)
     private String city;
 
