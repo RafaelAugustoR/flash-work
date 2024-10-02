@@ -17,7 +17,7 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-    public CategoryResponseDTO createCategory(CategoryRequestDTO request) {
+    public CategoryResponseDTO create(CategoryRequestDTO request) {
         Category category = Category.builder()
                 .name(request.getName())
                 .description(request.getDescription())
@@ -31,7 +31,7 @@ public class CategoryService {
                 .build();
     }
 
-    public CategoryResponseDTO updateCategory(UUID id, CategoryRequestDTO request) {
+    public CategoryResponseDTO update(UUID id, CategoryRequestDTO request) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Category not found"));
 
@@ -46,11 +46,11 @@ public class CategoryService {
                 .build();
     }
 
-    public void deleteCategory(UUID id) {
+    public void delete(UUID id) {
         categoryRepository.deleteById(id);
     }
 
-    public CategoryResponseDTO findCategoryById(UUID id) {
+    public CategoryResponseDTO findById(UUID id) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Category not found"));
 
@@ -62,7 +62,7 @@ public class CategoryService {
                 .build();
     }
 
-    public List<CategoryResponseDTO> findAllCategories() {
+    public List<CategoryResponseDTO> findAll() {
         return categoryRepository.findAll().stream()
                 .map(category -> CategoryResponseDTO.builder()
                         .id(category.getId())

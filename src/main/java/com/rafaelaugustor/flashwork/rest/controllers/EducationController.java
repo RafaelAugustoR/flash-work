@@ -21,31 +21,31 @@ public class EducationController {
     private final EducationService educationService;
 
     @PostMapping
-    public ResponseEntity<EducationResponseDTO> addEducation(@RequestBody EducationRequestDTO request, Principal principal) {
-        educationService.addEducation(request, principal);
+    public ResponseEntity<EducationResponseDTO> createEducation(@RequestBody EducationRequestDTO request, Principal principal) {
+        educationService.create(request, principal);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping
-    public ResponseEntity<List<EducationResponseDTO>> getEducations(Principal principal) {
-        var educations = educationService.getEducations(principal);
+    public ResponseEntity<List<EducationResponseDTO>> findAllEducations(Principal principal) {
+        var educations = educationService.findAll(principal);
         return ResponseEntity.ok().body(educations);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEducation(@PathVariable UUID id, Principal principal) {
-        educationService.deleteEducation(id, principal);
+        educationService.delete(id, principal);
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Void> updateEducation(@RequestBody EducationRequestDTO request, @PathVariable UUID id, Principal principal) {
-        educationService.updateEducation(id, request, principal);
+        educationService.update(id, request, principal);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EducationResponseDTO> getEducation(@PathVariable UUID id, Principal principal) {
-        return ResponseEntity.ok().body(educationService.findEducationById(id, principal));
+    public ResponseEntity<EducationResponseDTO> findEducationById(@PathVariable UUID id, Principal principal) {
+        return ResponseEntity.ok().body(educationService.findById(id, principal));
     }
 }

@@ -14,7 +14,7 @@ import java.util.UUID;
 import static com.rafaelaugustor.flashwork.utils.Constants.APP_ROOT;
 
 @RestController
-@RequestMapping(APP_ROOT + "/proposal")
+@RequestMapping(APP_ROOT + "/proposals")
 @RequiredArgsConstructor
 public class ProposalController {
 
@@ -22,7 +22,7 @@ public class ProposalController {
 
     @PostMapping
     public ResponseEntity<ProposalResponseDTO> createProposal(@RequestBody ProposalRequestDTO request, Principal principal) {
-        var proposal = proposalService.createProposal(request, principal);
+        var proposal = proposalService.create(request, principal);
         return ResponseEntity.ok().body(proposal);
     }
 
@@ -37,7 +37,7 @@ public class ProposalController {
 
     @PutMapping("/{id}/status")
     public ResponseEntity<ProposalResponseDTO> updateProposalStatus(@PathVariable UUID id, @RequestParam ProposalStatus status, Principal principal) {
-        var proposal = proposalService.updateProposalStatus(id, status, principal);
+        var proposal = proposalService.update(id, status, principal);
         return ResponseEntity.ok().body(proposal);
     }
 }

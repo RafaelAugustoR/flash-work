@@ -22,7 +22,7 @@ public class ReviewController {
 
     @PostMapping
     public ResponseEntity<Void> createReview(@RequestBody ReviewRequestDTO request, Principal principal) {
-        reviewService.createReview(request, principal);
+        reviewService.create(request, principal);
         return ResponseEntity.ok().build();
     }
 
@@ -38,13 +38,13 @@ public class ReviewController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Void> updateReview(@RequestBody ReviewRequestDTO request, @PathVariable UUID id, Principal principal) {
-        reviewService.updateReview(id, request, principal);
+        reviewService.update(id, request, principal);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteReview(@PathVariable UUID id, Principal principal) {
-        reviewService.deleteReview(id, principal);
+        reviewService.delete(id, principal);
         return ResponseEntity.ok().build();
     }
 }

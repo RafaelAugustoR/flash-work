@@ -26,7 +26,7 @@ public class ReviewService {
 
     private final ServiceRepository serviceRepository;
 
-    public void createReview(ReviewRequestDTO request, Principal principal) {
+    public void create(ReviewRequestDTO request, Principal principal) {
 
         User user = userRepository.findByEmail(principal.getName());
 
@@ -57,7 +57,7 @@ public class ReviewService {
                 .collect(Collectors.toList());
     }
 
-    public void updateReview(UUID reviewId, ReviewRequestDTO request, Principal principal) {
+    public void update(UUID reviewId, ReviewRequestDTO request, Principal principal) {
 
         var review = reviewRepository.findByIdAndReviewerEmail(reviewId, principal.getName());
 
@@ -67,7 +67,7 @@ public class ReviewService {
         reviewRepository.save(review);
     }
 
-    public void deleteReview(UUID reviewId, Principal principal) {
+    public void delete  (UUID reviewId, Principal principal) {
         var review = reviewRepository.findByIdAndReviewerEmail(reviewId, principal.getName());
         
         reviewRepository.delete(review);

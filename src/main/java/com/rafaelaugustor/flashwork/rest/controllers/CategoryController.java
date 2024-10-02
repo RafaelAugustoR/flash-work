@@ -22,31 +22,31 @@ public class CategoryController {
 
     @PostMapping
     public ResponseEntity<CategoryResponseDTO> createCategory(@RequestBody CategoryRequestDTO request) {
-        CategoryResponseDTO category = categoryService.createCategory(request);
+        CategoryResponseDTO category = categoryService.create(request);
         return new ResponseEntity<>(category, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<CategoryResponseDTO> updateCategory(@PathVariable UUID id, @RequestBody CategoryRequestDTO request) {
-        CategoryResponseDTO updatedCategory = categoryService.updateCategory(id, request);
+        CategoryResponseDTO updatedCategory = categoryService.update(id, request);
         return ResponseEntity.ok(updatedCategory);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable UUID id) {
-        categoryService.deleteCategory(id);
+        categoryService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<CategoryResponseDTO> findCategoryById(@PathVariable UUID id) {
-        CategoryResponseDTO category = categoryService.findCategoryById(id);
+        CategoryResponseDTO category = categoryService.findById(id);
         return ResponseEntity.ok(category);
     }
 
     @GetMapping
     public ResponseEntity<List<CategoryResponseDTO>> findAllCategories() {
-        List<CategoryResponseDTO> categories = categoryService.findAllCategories();
+        List<CategoryResponseDTO> categories = categoryService.findAll();
         return ResponseEntity.ok(categories);
     }
 }

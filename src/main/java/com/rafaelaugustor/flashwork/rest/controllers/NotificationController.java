@@ -21,20 +21,20 @@ public class NotificationController {
     private final NotificationService notificationService;
 
     @GetMapping
-    public ResponseEntity<List<NotificationResponseDTO>> getNotifications(Principal principal) {
-        List<NotificationResponseDTO> notifications = notificationService.getNotificationsForUser(principal);
+    public ResponseEntity<List<NotificationResponseDTO>> findAllNotifications(Principal principal) {
+        List<NotificationResponseDTO> notifications = notificationService.findAllNotificationsByUser(principal);
         return ResponseEntity.ok(notifications);
     }
 
-    @GetMapping("/{notificationId}")
-    public ResponseEntity<NotificationResponseDTO> getChatById(@PathVariable UUID notificationId) {
-        NotificationResponseDTO notification = notificationService.getNotificationById(notificationId);
+    @GetMapping("/{id}")
+    public ResponseEntity<NotificationResponseDTO> findNotificationById(@PathVariable UUID id) {
+        NotificationResponseDTO notification = notificationService.findById(id);
         return ResponseEntity.ok(notification);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteNotification(@PathVariable UUID id) {
-        notificationService.deleteNotification(id);
+        notificationService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }
