@@ -88,6 +88,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Message> sentMessages;
 
+    @OneToMany(mappedBy = "user")
+    private List<Address> addresses;
+
     @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
     private List<Chat> chats;
 
