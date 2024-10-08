@@ -7,8 +7,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum WorkType {
 
-    REMOTE("Remote"),
-    ONSITE("Onsite");
+    REMOTE("REMOTO"),
+    ONSITE("PRESENCIAL"),
+    HYBRID("HÍBRIDO");
 
     private final String type;
 

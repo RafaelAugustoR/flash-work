@@ -16,27 +16,28 @@ import static com.rafaelaugustor.flashwork.utils.Constants.APP_ROOT;
 @RestController
 @RequestMapping(APP_ROOT + "/services")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class ServiceController {
 
     private final ServiceService serviceService;
 
     @PostMapping
     public ResponseEntity<Void> createService(@RequestBody ServiceRequestDTO request, Principal principal) {
-        serviceService.createService(request, principal);
+        serviceService.create(request, principal);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ServiceResponseDTO> getService(@PathVariable UUID id) {
+    public ResponseEntity<ServiceResponseDTO> findServiceById(@PathVariable UUID id) {
 
-        var service = serviceService.findServiceById(id);
+        var service = serviceService.findById(id);
 
         return ResponseEntity.ok().body(service);
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<List<ServiceResponseDTO>> findServicesByCategory(@RequestParam UUID categoryId) {
-        return ResponseEntity.ok().body(serviceService.findServicesByCategory(categoryId));
+        return ResponseEntity.ok().body(serviceService.findAllByCategory(categoryId));
     }
 
     @GetMapping
@@ -46,13 +47,13 @@ public class ServiceController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ServiceResponseDTO> updateService(@PathVariable UUID id, @RequestBody ServiceRequestDTO request, Principal principal) {
-        var service = serviceService.updateService(id, request, principal);
+        var service = serviceService.update(id, request, principal);
         return ResponseEntity.ok().body(service);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteService(@PathVariable UUID id, Principal principal) {
-        serviceService.deleteService(id, principal);
+        serviceService.delete(id, principal);
         return ResponseEntity.ok().build();
     }
 }

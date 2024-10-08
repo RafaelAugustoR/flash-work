@@ -2,13 +2,13 @@ package com.rafaelaugustor.flashwork.services;
 
 import com.rafaelaugustor.flashwork.domain.entities.Category;
 import com.rafaelaugustor.flashwork.domain.entities.Service;
+import com.rafaelaugustor.flashwork.domain.enums.ServiceStatus;
 import com.rafaelaugustor.flashwork.repositories.CategoryRepository;
 import com.rafaelaugustor.flashwork.repositories.ServiceRepository;
 import com.rafaelaugustor.flashwork.repositories.UserRepository;
 import com.rafaelaugustor.flashwork.rest.dtos.request.ServiceRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.ServiceResponseDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -24,18 +24,19 @@ public class ServiceService {
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
 
-    @Transactional
-    public void createService(ServiceRequestDTO request, Principal principal) {
+    public void create(ServiceRequestDTO request, Principal principal) {
         var user = userRepository.findByEmail(principal.getName());
 
-        var categories = categoryRepository.findAllById(request.getCategoryIds());
+        var categories = categoryRepository.findAllById(request.getCategories());
 
         var service = Service.builder()
                 .title(request.getTitle())
                 .description(request.getDescription())
-                .price(request.getPrice())
+                .budget(request.getBudget())
                 .workType(request.getWorkType())
+                .deadline(request.getDeadline())
                 .location(request.getLocation())
+                .status(ServiceStatus.OPEN)
                 .client(user)
                 .categories(new ArrayList<>(categories))
                 .build();
@@ -43,15 +44,16 @@ public class ServiceService {
         serviceRepository.save(service);
     }
 
-    public ServiceResponseDTO updateService(UUID serviceId, ServiceRequestDTO request, Principal principal) {
+    public ServiceResponseDTO update(UUID serviceId, ServiceRequestDTO request, Principal principal) {
         var service = serviceRepository.findByIdAndClientEmail(serviceId, principal.getName());
 
         if (service != null) {
-            var categories = categoryRepository.findAllById(request.getCategoryIds());
+            var categories = categoryRepository.findAllById(request.getCategories());
 
             service.setTitle(request.getTitle());
             service.setDescription(request.getDescription());
-            service.setPrice(request.getPrice());
+            service.setBudget(request.getBudget());
+            service.setDeadline(request.getDeadline());
             service.setWorkType(request.getWorkType());
             service.setLocation(request.getLocation());
             service.setCategories(new ArrayList<>(categories));
@@ -63,14 +65,14 @@ public class ServiceService {
         return toResponseDTO(service);
     }
 
-    public void deleteService(UUID serviceId, Principal principal){
+    public void delete(UUID serviceId, Principal principal){
         var service = serviceRepository.findByIdAndClientEmail(serviceId, principal.getName());
 
         assert service != null;
         serviceRepository.delete(service);
     }
 
-    public ServiceResponseDTO findServiceById(UUID serviceId){
+    public ServiceResponseDTO findById(UUID serviceId){
         Service service = serviceRepository.findById(serviceId).
                 orElseThrow(() -> new RuntimeException("Service not found"));
 
@@ -92,14 +94,14 @@ public class ServiceService {
                 .map(this::toResponseDTO)
                 .collect(Collectors.toList());
     }
-
     private ServiceResponseDTO toResponseDTO(Service service) {
         return ServiceResponseDTO.builder()
                 .id(service.getId())
                 .title(service.getTitle())
                 .description(service.getDescription())
-                .price(service.getPrice())
-                .workType(service.getWorkType())
+                .budget(service.getBudget())
+                .deadline(service.getDeadline())
+                .workType(service.getWorkType().getType())
                 .location(service.getLocation())
                 .createdAt(service.getCreatedAt())
                 .clientId(service.getClient().getId())

@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
-import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -24,9 +23,6 @@ import java.util.Optional;
 public class OAuthAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     private final UserRepository userRepository;
-
-    private final DefaultRedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
-
     private final TokenService tokenService;
 
     @Override
@@ -35,38 +31,32 @@ public class OAuthAuthenticationSuccessHandler implements AuthenticationSuccessH
 
         OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
         String registrationId = oauthToken.getAuthorizedClientRegistrationId();
-        log.info("Authorized client registration ID: {}", registrationId);
-
         DefaultOAuth2User oauthUser = (DefaultOAuth2User) authentication.getPrincipal();
 
-        oauthUser.getAttributes().forEach((key, value) -> {
-            log.info("{}: {}", key, value);
+        if (!registrationId.equalsIgnoreCase("google")) {
+            response.sendRedirect("/login");
+            throw new RuntimeException("Invalid registration id");
+        }
+
+        String email = oauthUser.getAttribute("email").toString();
+        Optional<User> optionalUser = Optional.ofNullable(userRepository.findByEmail(email));
+
+        User user = optionalUser.orElseGet(() -> {
+            User newUser = User.builder()
+                    .name(oauthUser.getAttribute("name").toString())
+                    .email(email)
+                    .password("password")
+                    .profilePicture(oauthUser.getAttribute("picture").toString())
+                    .role(UserRole.CUSTOMER)
+                    .build();
+            return userRepository.save(newUser);
         });
 
-        User user = new User();
-        user.setRole(UserRole.CUSTOMER);
-        user.setPassword("dummy");
-
-        if (registrationId.equalsIgnoreCase("google")) {
-            user.setEmail(oauthUser.getAttribute("email").toString());
-            user.setProfilePicture(oauthUser.getAttribute("picture").toString());
-            user.setName(oauthUser.getAttribute("name").toString());
-        } else {
-            log.error("Unknown registration ID: {}", registrationId);
-            response.sendRedirect("/login?error");
-            return;
-        }
-
-        Optional<User> existingUser = Optional.ofNullable(userRepository.findByEmail(user.getEmail()));
-        if (existingUser.isPresent()) {
-            log.info("User already exists: {}", existingUser.get().getEmail());
-        } else {
-            userRepository.save(user);
-            log.info("User saved: {}", user.getEmail());
-        }
-
         String token = tokenService.generateToken(user);
-        response.setContentType("application/json");
-        response.getWriter().write("{\"token\": \"" + token + "\"}");
+
+        String redirectUrl = "http://localhost:5173/?token=" + token;
+        response.sendRedirect(redirectUrl);
+
+        log.info("User {} successfully authenticated w/ token {}", user.getEmail(), token);
     }
 }

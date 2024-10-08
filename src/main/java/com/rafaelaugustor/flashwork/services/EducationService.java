@@ -23,7 +23,7 @@ public class EducationService {
     private final EducationRepository educationRepository;
     private final UserRepository userRepository;
 
-    public void addEducation(EducationRequestDTO request, Principal principal) {
+    public void create(EducationRequestDTO request, Principal principal) {
         User user = userRepository.findByEmail(principal.getName());
 
         Education educationToSave = Education.builder()
@@ -37,14 +37,14 @@ public class EducationService {
     }
 
     @Transactional
-    public List<EducationResponseDTO> getEducations(Principal principal) {
+    public List<EducationResponseDTO> findAll(Principal principal) {
         User user = userRepository.findByEmail(principal.getName());
         return user.getEducation().stream()
                 .map(education -> new EducationResponseDTO(education.getId(), education.getDegreeType(), education.getCourse(), education.getInstitution(), education.getYearOfCompletion(), education.getYearOfInitiation()))
                 .collect(Collectors.toList());
     }
 
-    public void updateEducation(UUID educationId, EducationRequestDTO request, Principal principal) {
+    public void update(UUID educationId, EducationRequestDTO request, Principal principal) {
         var foundedEducation = educationRepository.findByIdAndUserEmail(educationId, principal.getName())
                 .orElseThrow(() -> new EntityNotFoundException("Education not found."));
 
@@ -56,7 +56,7 @@ public class EducationService {
         educationRepository.save(foundedEducation);
     }
 
-    public EducationResponseDTO findEducationById(UUID educationId, Principal principal) {
+    public EducationResponseDTO findById(UUID educationId, Principal principal) {
         var foundedEducation = educationRepository.findByIdAndUserEmail(educationId, principal.getName())
                 .orElseThrow(() -> new EntityNotFoundException("Education not found."));
 
@@ -69,7 +69,7 @@ public class EducationService {
                 .build();
     }
 
-    public void deleteEducation(UUID educationId, Principal principal) {
+    public void delete(UUID educationId, Principal principal) {
         var education = educationRepository.findByIdAndUserEmail(educationId, principal.getName())
                 .orElseThrow(() -> new EntityNotFoundException("Education not found."));
 

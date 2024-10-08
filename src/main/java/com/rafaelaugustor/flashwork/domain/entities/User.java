@@ -82,6 +82,18 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "receiver")
     private List<Notification> receivedNotifications;
 
+    @OneToMany(mappedBy = "freelancer")
+    private List<Proposal> proposals;
+
+    @OneToMany(mappedBy = "user")
+    private List<Message> sentMessages;
+
+    @OneToMany(mappedBy = "user")
+    private List<Address> addresses;
+
+    @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
+    private List<Chat> chats;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_" + role));

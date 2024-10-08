@@ -11,4 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CategoryRequestDTO {
     private String name;
+    private String description;
+    private String iconName;
 }

@@ -14,8 +14,9 @@ import java.util.UUID;
 import static com.rafaelaugustor.flashwork.utils.Constants.APP_ROOT;
 
 @RestController
-@RequestMapping(APP_ROOT + "/user")
+@RequestMapping(APP_ROOT + "/users")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class UserController {
 
     private final UserService service;
@@ -39,7 +40,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}/profile")
-    public ResponseEntity<UserResponseDTO> findById(@PathVariable UUID id) {
+    public ResponseEntity<UserResponseDTO> findUserById(@PathVariable UUID id) {
         UserResponseDTO userProfile = service.findById(id);
         return ResponseEntity.ok().body(userProfile);
     }

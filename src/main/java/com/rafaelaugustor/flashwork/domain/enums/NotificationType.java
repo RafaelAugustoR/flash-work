@@ -7,9 +7,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum NotificationType {
 
-    ALERT("Alert"),
-    REMINDER("Reminder"),
-    SYSTEM("System");
+    ALERT("ALERTA"),
+    REMINDER("LEMBRETE"),
+    SYSTEM("SISTEMA");
 
     private final String type;
 }
