@@ -29,9 +29,7 @@ public class ServiceController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ServiceResponseDTO> findServiceById(@PathVariable UUID id) {
-
         var service = serviceService.findById(id);
-
         return ResponseEntity.ok().body(service);
     }
 
