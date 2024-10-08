@@ -23,6 +23,6 @@ public class ServiceResponseDTO {
     private LocalDate deadline;
     private String location;
     private Timestamp createdAt;
-    private UUID providerId;
+    private UUID clientId;
     private List<String> categories;
 }

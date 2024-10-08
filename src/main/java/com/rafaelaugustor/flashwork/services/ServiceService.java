@@ -79,14 +79,21 @@ public class ServiceService {
         return toResponseDTO(service);
     }
 
-    public List<ServiceResponseDTO> findAllByCategory(UUID categoryId) {
-        List<Service> services = serviceRepository.findAllByCategoriesId(categoryId);
+    public List<ServiceResponseDTO> findServicesByCategory(UUID categoryId) {
+        List<Service> services = serviceRepository.findByCategoriesId(categoryId);
 
         return services.stream()
                 .map(this::toResponseDTO)
                 .collect(Collectors.toList());
     }
 
+    public List<ServiceResponseDTO> findServicesByUser(Principal principal){
+        List<Service> services = serviceRepository.findByClientEmail(principal.getName());
+
+        return services.stream()
+                .map(this::toResponseDTO)
+                .collect(Collectors.toList());
+    }
     private ServiceResponseDTO toResponseDTO(Service service) {
         return ServiceResponseDTO.builder()
                 .id(service.getId())
@@ -97,7 +104,7 @@ public class ServiceService {
                 .workType(service.getWorkType().getType())
                 .location(service.getLocation())
                 .createdAt(service.getCreatedAt())
-                .providerId(service.getClient().getId())
+                .clientId(service.getClient().getId())
                 .categories(service.getCategories().stream().map(Category::getName).toList())
                 .build();
     }
