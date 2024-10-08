@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ServiceRepository extends JpaRepository<Service, UUID> {
-    Service findByIdAndProviderEmail(UUID serviceId, String email);
+    Service findByIdAndClientEmail(UUID serviceId, String email);
 
-    List<Service> findAllByCategoriesId(UUID categoryId);
+    List<Service> findByClientEmail(String email);
+
+    List<Service> findByCategoriesId(UUID categoryId);
 }

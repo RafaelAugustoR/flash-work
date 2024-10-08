@@ -22,6 +22,6 @@ public class ServiceResponseDTO {
     private WorkType workType;
     private String location;
     private Timestamp createdAt;
-    private UUID providerId;
+    private UUID clientId;
     private List<String> categories;
 }

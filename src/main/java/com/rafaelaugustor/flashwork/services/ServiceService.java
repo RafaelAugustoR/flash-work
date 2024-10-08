@@ -36,7 +36,7 @@ public class ServiceService {
                 .price(request.getPrice())
                 .workType(request.getWorkType())
                 .location(request.getLocation())
-                .provider(user)
+                .client(user)
                 .categories(new ArrayList<>(categories))
                 .build();
 
@@ -44,7 +44,7 @@ public class ServiceService {
     }
 
     public ServiceResponseDTO updateService(UUID serviceId, ServiceRequestDTO request, Principal principal) {
-        var service = serviceRepository.findByIdAndProviderEmail(serviceId, principal.getName());
+        var service = serviceRepository.findByIdAndClientEmail(serviceId, principal.getName());
 
         if (service != null) {
             var categories = categoryRepository.findAllById(request.getCategoryIds());
@@ -64,7 +64,7 @@ public class ServiceService {
     }
 
     public void deleteService(UUID serviceId, Principal principal){
-        var service = serviceRepository.findByIdAndProviderEmail(serviceId, principal.getName());
+        var service = serviceRepository.findByIdAndClientEmail(serviceId, principal.getName());
 
         assert service != null;
         serviceRepository.delete(service);
@@ -78,13 +78,20 @@ public class ServiceService {
     }
 
     public List<ServiceResponseDTO> findServicesByCategory(UUID categoryId) {
-        List<Service> services = serviceRepository.findAllByCategoriesId(categoryId);
+        List<Service> services = serviceRepository.findByCategoriesId(categoryId);
 
         return services.stream()
                 .map(this::toResponseDTO)
                 .collect(Collectors.toList());
     }
 
+    public List<ServiceResponseDTO> findServicesByUser(Principal principal){
+        List<Service> services = serviceRepository.findByClientEmail(principal.getName());
+
+        return services.stream()
+                .map(this::toResponseDTO)
+                .collect(Collectors.toList());
+    }
 
     private ServiceResponseDTO toResponseDTO(Service service) {
         return ServiceResponseDTO.builder()
@@ -95,7 +102,7 @@ public class ServiceService {
                 .workType(service.getWorkType())
                 .location(service.getLocation())
                 .createdAt(service.getCreatedAt())
-                .providerId(service.getProvider().getId())
+                .clientId(service.getClient().getId())
                 .categories(service.getCategories().stream().map(Category::getName).toList())
                 .build();
     }

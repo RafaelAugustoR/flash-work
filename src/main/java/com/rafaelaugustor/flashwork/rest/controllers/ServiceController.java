@@ -39,6 +39,11 @@ public class ServiceController {
         return ResponseEntity.ok().body(serviceService.findServicesByCategory(categoryId));
     }
 
+    @GetMapping
+    public ResponseEntity<List<ServiceResponseDTO>> findServicesByCategory(Principal principal) {
+        return ResponseEntity.ok().body(serviceService.findServicesByUser(principal));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<ServiceResponseDTO> updateService(@PathVariable UUID id, @RequestBody ServiceRequestDTO request, Principal principal) {
         var service = serviceService.updateService(id, request, principal);
