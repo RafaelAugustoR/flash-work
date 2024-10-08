@@ -37,7 +37,7 @@ public class ServiceController {
 
     @GetMapping
     public ResponseEntity<List<ServiceResponseDTO>> findServicesByCategory(@RequestParam UUID categoryId) {
-        return ResponseEntity.ok().body(serviceService.findAllByCategory(categoryId));
+        return ResponseEntity.ok().body(serviceService.findServicesByCategory(categoryId));
     }
 
     @GetMapping
