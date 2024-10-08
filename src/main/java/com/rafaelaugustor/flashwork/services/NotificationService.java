@@ -1,13 +1,16 @@
 package com.rafaelaugustor.flashwork.services;
 
+import com.rafaelaugustor.flashwork.broker.producers.EmailProducer;
 import com.rafaelaugustor.flashwork.domain.entities.Notification;
 import com.rafaelaugustor.flashwork.domain.entities.User;
 import com.rafaelaugustor.flashwork.domain.enums.NotificationType;
 import com.rafaelaugustor.flashwork.repositories.NotificationRepository;
 import com.rafaelaugustor.flashwork.repositories.UserRepository;
+import com.rafaelaugustor.flashwork.rest.dtos.request.EmailRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.request.NotificationRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.NotificationResponseDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitMessagingTemplate;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +26,7 @@ public class NotificationService {
 
     private final NotificationRepository notificationRepository;
     private final SimpMessagingTemplate messagingTemplate;
+    private final EmailProducer producer;
     private final UserRepository userRepository;
 
     public void sendNotification(NotificationRequestDTO request) {
@@ -42,6 +46,14 @@ public class NotificationService {
                 .build();
 
         notificationRepository.save(notification);
+
+        EmailRequestDTO emailRequest = EmailRequestDTO.builder()
+                .to(receiver.getEmail())
+                .subject("You have a new notification!")
+                .text(notification.getContent())
+                .build();
+
+        producer.sendEmail(emailRequest);
 
         messagingTemplate.convertAndSend("/topic/notifications/" + receiver.getId(), notification);
     }

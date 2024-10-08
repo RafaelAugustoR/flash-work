@@ -29,15 +29,13 @@ public class ServiceController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ServiceResponseDTO> findServiceById(@PathVariable UUID id) {
-
         var service = serviceService.findById(id);
-
         return ResponseEntity.ok().body(service);
     }
 
     @GetMapping
     public ResponseEntity<List<ServiceResponseDTO>> findServicesByCategory(@RequestParam UUID categoryId) {
-        return ResponseEntity.ok().body(serviceService.findAllByCategory(categoryId));
+        return ResponseEntity.ok().body(serviceService.findServicesByCategory(categoryId));
     }
 
     @GetMapping
