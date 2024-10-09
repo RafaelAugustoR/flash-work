@@ -33,13 +33,13 @@ public class ServiceController {
         return ResponseEntity.ok().body(service);
     }
 
-    @GetMapping
-    public ResponseEntity<List<ServiceResponseDTO>> findServicesByCategory(@RequestParam UUID categoryId) {
-        return ResponseEntity.ok().body(serviceService.findServicesByCategory(categoryId));
+    @GetMapping("/categories/{id}")
+    public ResponseEntity<List<ServiceResponseDTO>> findServicesByCategory(@RequestParam UUID id) {
+        return ResponseEntity.ok().body(serviceService.findServicesByCategory(id));
     }
 
-    @GetMapping
-    public ResponseEntity<List<ServiceResponseDTO>> findServicesByCategory(Principal principal) {
+    @GetMapping("/user")
+    public ResponseEntity<List<ServiceResponseDTO>> findServicesByUser(Principal principal) {
         return ResponseEntity.ok().body(serviceService.findServicesByUser(principal));
     }
 
