@@ -28,7 +28,6 @@ public class UserService {
         User user = repository.findByEmail(principal.getName());
 
         user.setName(request.getName());
-        user.setCpf(request.getCpf());
         user.setProfession(request.getProfession());
         user.setPhone(request.getPhone());
         user.setDescription(request.getDescription());
