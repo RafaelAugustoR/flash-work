@@ -11,8 +11,6 @@ public class UserRequestDTO {
 
     private String name;
 
-    private String cpf;
-
     private String phone;
 
     private String profession;

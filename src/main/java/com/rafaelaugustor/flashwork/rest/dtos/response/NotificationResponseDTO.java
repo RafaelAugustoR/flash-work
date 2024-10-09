@@ -16,7 +16,7 @@ import java.util.UUID;
 public class NotificationResponseDTO {
     private UUID id;
     private String content;
-    private UUID senderId;
+    private UserMinDTO sender;
     private Boolean isViewed;
     private LocalDateTime date;
     private NotificationType notificationType;

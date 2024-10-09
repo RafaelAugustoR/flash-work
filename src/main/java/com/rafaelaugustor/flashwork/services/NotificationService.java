@@ -9,8 +9,8 @@ import com.rafaelaugustor.flashwork.repositories.UserRepository;
 import com.rafaelaugustor.flashwork.rest.dtos.request.EmailRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.request.NotificationRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.NotificationResponseDTO;
+import com.rafaelaugustor.flashwork.rest.dtos.response.UserMinDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.amqp.rabbit.core.RabbitMessagingTemplate;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
@@ -66,7 +66,7 @@ public class NotificationService {
                 .map(notification -> new NotificationResponseDTO(
                         notification.getId(),
                         notification.getContent(),
-                        notification.getSender().getId(),
+                        new UserMinDTO(notification.getSender()),
                         notification.getIsViewed(),
                         notification.getDate(),
                         notification.getNotificationType()
@@ -89,7 +89,7 @@ public class NotificationService {
                 .isViewed(notification.getIsViewed())
                 .date(notification.getDate())
                 .notificationType(notification.getNotificationType())
-                .senderId(notification.getSender().getId())
+                .sender(new UserMinDTO(notification.getSender()))
                 .build();
     }
 

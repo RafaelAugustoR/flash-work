@@ -8,6 +8,7 @@ import com.rafaelaugustor.flashwork.repositories.ServiceRepository;
 import com.rafaelaugustor.flashwork.repositories.UserRepository;
 import com.rafaelaugustor.flashwork.rest.dtos.request.ServiceRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.ServiceResponseDTO;
+import com.rafaelaugustor.flashwork.rest.dtos.response.UserMinDTO;
 import lombok.RequiredArgsConstructor;
 
 import java.security.Principal;
@@ -104,7 +105,7 @@ public class ServiceService {
                 .workType(service.getWorkType().getType())
                 .location(service.getLocation())
                 .createdAt(service.getCreatedAt())
-                .clientId(service.getClient().getId())
+                .client(new UserMinDTO(service.getClient()))
                 .categories(service.getCategories().stream().map(Category::getName).toList())
                 .build();
     }
