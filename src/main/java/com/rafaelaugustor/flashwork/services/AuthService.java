@@ -1,8 +1,10 @@
 package com.rafaelaugustor.flashwork.services;
 
 import com.rafaelaugustor.flashwork.domain.entities.User;
+import com.rafaelaugustor.flashwork.domain.entities.Wallet;
 import com.rafaelaugustor.flashwork.domain.enums.UserRole;
 import com.rafaelaugustor.flashwork.repositories.UserRepository;
+import com.rafaelaugustor.flashwork.repositories.WalletRepository;
 import com.rafaelaugustor.flashwork.rest.dtos.request.LoginRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.request.RegisterRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.LoginResponseDTO;
@@ -12,11 +14,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
 
     private final UserRepository repository;
+    private final WalletRepository walletRepository;
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
@@ -54,5 +59,11 @@ public class AuthService {
                 .build();
 
         repository.save(userToSave);
+
+        Wallet wallet = new Wallet();
+        wallet.setUser(userToSave);
+        wallet.setBalance(BigDecimal.ZERO);
+
+        walletRepository.save(wallet);
     }
 }
