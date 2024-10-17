@@ -1,6 +1,8 @@
 package com.rafaelaugustor.flashwork.domain.entities;
 
 import com.rafaelaugustor.flashwork.domain.enums.TransactionType;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +14,8 @@ import java.util.UUID;
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Transaction {
 
     @Id
