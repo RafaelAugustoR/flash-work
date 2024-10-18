@@ -13,5 +13,4 @@ public class PixPaymentResponseDTO {
     private String detail;
     private String qrCodeBase64;
     private String qrCode;
-
 }
