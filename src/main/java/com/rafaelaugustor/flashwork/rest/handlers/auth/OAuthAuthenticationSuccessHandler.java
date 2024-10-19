@@ -1,4 +1,4 @@
-package com.rafaelaugustor.flashwork.rest.handlers;
+package com.rafaelaugustor.flashwork.rest.handlers.auth;
 
 import com.rafaelaugustor.flashwork.domain.entities.User;
 import com.rafaelaugustor.flashwork.domain.enums.UserRole;
