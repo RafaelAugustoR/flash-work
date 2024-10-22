@@ -3,12 +3,14 @@ package com.rafaelaugustor.flashwork.services;
 import com.rafaelaugustor.flashwork.domain.entities.Category;
 import com.rafaelaugustor.flashwork.domain.entities.Service;
 import com.rafaelaugustor.flashwork.domain.enums.ServiceStatus;
+import com.rafaelaugustor.flashwork.domain.enums.WorkType;
 import com.rafaelaugustor.flashwork.repositories.CategoryRepository;
 import com.rafaelaugustor.flashwork.repositories.ServiceRepository;
 import com.rafaelaugustor.flashwork.repositories.UserRepository;
 import com.rafaelaugustor.flashwork.rest.dtos.request.ServiceRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.ServiceResponseDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.UserMinDTO;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import java.security.Principal;
@@ -66,14 +68,14 @@ public class ServiceService {
         return toResponseDTO(service);
     }
 
-    public void delete(UUID serviceId, Principal principal){
+    public void delete(UUID serviceId, Principal principal) {
         var service = serviceRepository.findByIdAndClientEmail(serviceId, principal.getName());
 
         assert service != null;
         serviceRepository.delete(service);
     }
 
-    public ServiceResponseDTO findById(UUID serviceId){
+    public ServiceResponseDTO findById(UUID serviceId) {
         Service service = serviceRepository.findById(serviceId).
                 orElseThrow(() -> new RuntimeException("Service not found"));
 
@@ -88,13 +90,22 @@ public class ServiceService {
                 .collect(Collectors.toList());
     }
 
-    public List<ServiceResponseDTO> findServicesByUser(Principal principal){
+    public List<ServiceResponseDTO> findServicesByUser(Principal principal) {
         List<Service> services = serviceRepository.findByClientEmail(principal.getName());
 
         return services.stream()
                 .map(this::toResponseDTO)
                 .collect(Collectors.toList());
     }
+
+    public List<ServiceResponseDTO> findServicesByWorkType(WorkType workType) {
+        List<Service> services = serviceRepository.findByWorkType(workType);
+
+        return services.stream()
+                .map(this::toResponseDTO)
+                .collect(Collectors.toList());
+    }
+
     private ServiceResponseDTO toResponseDTO(Service service) {
         return ServiceResponseDTO.builder()
                 .id(service.getId())
@@ -110,4 +121,3 @@ public class ServiceService {
                 .build();
     }
 }
-       
