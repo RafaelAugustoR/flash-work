@@ -1,5 +1,6 @@
 package com.rafaelaugustor.flashwork.rest.controllers;
 
+import com.rafaelaugustor.flashwork.domain.enums.WorkType;
 import com.rafaelaugustor.flashwork.rest.dtos.request.ServiceRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.ServiceResponseDTO;
 import com.rafaelaugustor.flashwork.services.ServiceService;
@@ -34,13 +35,25 @@ public class ServiceController {
     }
 
     @GetMapping("/categories/{id}")
-    public ResponseEntity<List<ServiceResponseDTO>> findServicesByCategory(@RequestParam UUID id) {
+    public ResponseEntity<List<ServiceResponseDTO>> findServicesByCategory(@PathVariable UUID id) {
         return ResponseEntity.ok().body(serviceService.findServicesByCategory(id));
     }
 
     @GetMapping("/user")
     public ResponseEntity<List<ServiceResponseDTO>> findServicesByUser(Principal principal) {
         return ResponseEntity.ok().body(serviceService.findServicesByUser(principal));
+    }
+
+    @GetMapping("/work-type/{workType}")
+    public ResponseEntity<List<ServiceResponseDTO>> findServicesByWorkType(@PathVariable WorkType workType) {
+        List<ServiceResponseDTO> services = serviceService.findServicesByWorkType(workType);
+        return ResponseEntity.ok(services);
+    }
+
+    @GetMapping("/location")
+    public ResponseEntity<List<ServiceResponseDTO>> findServicesByLocation(Principal principal) {
+        List<ServiceResponseDTO> services = serviceService.findServicesByUserLocation(principal);
+        return ResponseEntity.ok(services);
     }
 
     @PutMapping("/{id}")
