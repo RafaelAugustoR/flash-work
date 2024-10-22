@@ -13,7 +13,7 @@ import static com.rafaelaugustor.flashwork.utils.Constants.APP_ROOT;
 @RestController
 @RequestMapping(APP_ROOT + "/forgot-password")
 @RequiredArgsConstructor
-@CrossOrigin("*")
+@CrossOrigin
 public class PasswordController {
 
     private final PasswordService passwordService;

@@ -13,7 +13,7 @@ import static com.rafaelaugustor.flashwork.utils.Constants.APP_ROOT;
 @RestController
 @RequestMapping(APP_ROOT + "/auth")
 @RequiredArgsConstructor
-@CrossOrigin("*")
+@CrossOrigin
 public class AuthController {
 
     private final AuthService service;

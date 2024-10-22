@@ -17,7 +17,7 @@ import static com.rafaelaugustor.flashwork.utils.Constants.APP_ROOT;
 @RestController
 @RequestMapping(APP_ROOT + "/services")
 @RequiredArgsConstructor
-@CrossOrigin("*")
+@CrossOrigin
 public class ServiceController {
 
     private final ServiceService serviceService;
