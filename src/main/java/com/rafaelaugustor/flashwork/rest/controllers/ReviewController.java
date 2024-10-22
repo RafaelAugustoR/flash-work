@@ -16,6 +16,7 @@ import static com.rafaelaugustor.flashwork.utils.Constants.APP_ROOT;
 @RestController
 @RequestMapping(APP_ROOT + "/review")
 @RequiredArgsConstructor
+@CrossOrigin
 public class ReviewController {
 
     private final ReviewService reviewService;

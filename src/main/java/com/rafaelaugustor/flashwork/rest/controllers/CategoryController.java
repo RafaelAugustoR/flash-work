@@ -16,6 +16,7 @@ import static com.rafaelaugustor.flashwork.utils.Constants.APP_ROOT;
 @RestController
 @RequestMapping(APP_ROOT + "/categories")
 @RequiredArgsConstructor
+@CrossOrigin
 public class CategoryController {
 
     private final CategoryService categoryService;

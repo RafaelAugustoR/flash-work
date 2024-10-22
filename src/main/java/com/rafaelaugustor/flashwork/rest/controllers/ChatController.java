@@ -16,7 +16,7 @@ import static com.rafaelaugustor.flashwork.utils.Constants.APP_ROOT;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(APP_ROOT + "/chats")
-@CrossOrigin("*")
+@CrossOrigin
 public class ChatController {
 
     private final ChatService chatService;

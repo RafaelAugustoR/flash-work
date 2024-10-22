@@ -16,6 +16,7 @@ import static com.rafaelaugustor.flashwork.utils.Constants.APP_ROOT;
 @RestController
 @RequestMapping(APP_ROOT + "/proposals")
 @RequiredArgsConstructor
+@CrossOrigin
 public class ProposalController {
 
     private final ProposalService proposalService;

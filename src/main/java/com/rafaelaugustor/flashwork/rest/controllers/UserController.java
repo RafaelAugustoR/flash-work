@@ -16,7 +16,7 @@ import static com.rafaelaugustor.flashwork.utils.Constants.APP_ROOT;
 @RestController
 @RequestMapping(APP_ROOT + "/users")
 @RequiredArgsConstructor
-@CrossOrigin("*")
+@CrossOrigin
 public class UserController {
 
     private final UserService service;

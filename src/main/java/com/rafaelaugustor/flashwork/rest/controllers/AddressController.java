@@ -16,6 +16,7 @@ import static com.rafaelaugustor.flashwork.utils.Constants.APP_ROOT;
 @RestController
 @RequestMapping(APP_ROOT + "/address")
 @RequiredArgsConstructor
+@CrossOrigin
 public class AddressController {
 
     private final AddressService addressService;

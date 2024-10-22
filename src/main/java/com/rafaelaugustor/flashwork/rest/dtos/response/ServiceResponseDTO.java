@@ -24,5 +24,5 @@ public class ServiceResponseDTO {
     private String location;
     private Timestamp createdAt;
     private UserMinDTO client;
-    private List<String> categories;
+    private List<CategoryResponseDTO> categories;
 }

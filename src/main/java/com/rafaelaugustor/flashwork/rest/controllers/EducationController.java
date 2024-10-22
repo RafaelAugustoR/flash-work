@@ -16,6 +16,7 @@ import static com.rafaelaugustor.flashwork.utils.Constants.APP_ROOT;
 @RestController
 @RequestMapping(APP_ROOT + "/educations")
 @RequiredArgsConstructor
+@CrossOrigin
 public class EducationController {
 
     private final EducationService educationService;
