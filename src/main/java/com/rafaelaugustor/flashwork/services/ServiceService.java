@@ -8,6 +8,7 @@ import com.rafaelaugustor.flashwork.repositories.CategoryRepository;
 import com.rafaelaugustor.flashwork.repositories.ServiceRepository;
 import com.rafaelaugustor.flashwork.repositories.UserRepository;
 import com.rafaelaugustor.flashwork.rest.dtos.request.ServiceRequestDTO;
+import com.rafaelaugustor.flashwork.rest.dtos.response.CategoryResponseDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.ServiceResponseDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.UserMinDTO;
 import jakarta.transaction.Transactional;
@@ -106,6 +107,22 @@ public class ServiceService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
+    public List<ServiceResponseDTO> findServicesByUserLocation(Principal principal) {
+        var user = userRepository.findByEmail(principal.getName());
+
+        var city = user.getAddresses().stream().map(address -> address.getCity()).filter(address -> address != null).findFirst().orElseThrow();
+        var state = user.getAddresses().stream().map(address -> address.getState()).filter(address -> address != null).findFirst().orElseThrow();
+
+        var location = city + ", " + state;
+
+        var services = serviceRepository.findByLocationExcludingClient(location);
+
+        return services.stream()
+                .map(this::toResponseDTO)
+                .collect(Collectors.toList());
+    }
+
     private ServiceResponseDTO toResponseDTO(Service service) {
         return ServiceResponseDTO.builder()
                 .id(service.getId())
@@ -117,7 +134,9 @@ public class ServiceService {
                 .location(service.getLocation())
                 .createdAt(service.getCreatedAt())
                 .client(new UserMinDTO(service.getClient()))
-                .categories(service.getCategories().stream().map(Category::getName).toList())
+                .categories(service.getCategories().stream()
+                        .map(category -> new CategoryResponseDTO(category))
+                        .toList())
                 .build();
     }
 }

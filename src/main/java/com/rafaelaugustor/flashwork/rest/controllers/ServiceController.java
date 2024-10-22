@@ -51,7 +51,7 @@ public class ServiceController {
     }
 
     @GetMapping("/location")
-    public ResponseEntity<List<ServiceResponseDTO>> findServicesByLocation(Principal principal) {
+    public ResponseEntity<List<ServiceResponseDTO>> findServicesByUserLocation(Principal principal) {
         List<ServiceResponseDTO> services = serviceService.findServicesByUserLocation(principal);
         return ResponseEntity.ok(services);
     }
