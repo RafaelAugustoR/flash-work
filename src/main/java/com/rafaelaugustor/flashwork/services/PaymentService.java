@@ -1,5 +1,7 @@
 package com.rafaelaugustor.flashwork.services;
 
+import br.com.efi.efisdk.EfiPay;
+import br.com.efi.efisdk.exceptions.EfiPayException;
 import com.mercadopago.MercadoPagoConfig;
 import com.mercadopago.client.common.IdentificationRequest;
 import com.mercadopago.client.payment.PaymentClient;
@@ -8,13 +10,17 @@ import com.mercadopago.client.payment.PaymentPayerRequest;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.payment.Payment;
+import com.rafaelaugustor.flashwork.domain.entities.Credentials;
 import com.rafaelaugustor.flashwork.exception.MercadoPagoException;
 import com.rafaelaugustor.flashwork.rest.dtos.request.PixPaymentRequestDTO;
+import com.rafaelaugustor.flashwork.rest.dtos.request.WithDrawlRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.PixPaymentResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +30,7 @@ public class PaymentService {
 
     public PixPaymentResponseDTO processPixPayment(PixPaymentRequestDTO request, Principal principal) {
         try {
-            MercadoPagoConfig.setAccessToken();
+            MercadoPagoConfig.setAccessToken("ACCESS_TOKEN");
 
             PaymentClient paymentClient = new PaymentClient();
 
@@ -67,33 +73,37 @@ public class PaymentService {
             throw new MercadoPagoException(exception.getMessage());
         }
     }
-//    public void processCardPayment(CardPaymentRequestDTO request){
-//        MercadoPagoConfig.setAccessToken("APP_USR-1644617106519623-100920-d5bf419916c299ae1e401050103c5ba2-2029820000");
-//
-//        PaymentClient client = new PaymentClient();
-//
-//        PaymentCreateRequest createRequest =
-//                PaymentCreateRequest.builder()
-//                        .transactionAmount(request.getTransactionAmount())
-//                        .token(request.getToken())
-//                        .description("Card payment")
-//                        .installments(request.getInstallments())
-//                        .paymentMethodId(request.getPaymentMethodId())
-//                        .payer(PaymentPayerRequest.builder()
-//                                .email(request.getPayer().getEmail())
-//                                .build())
-//                        .build();
-//
-//        try {
-//            Payment payment = client.create(createRequest);
-//            System.out.println(payment);
-//        } catch (MPApiException ex) {
-//            System.out.printf(
-//                    "MercadoPago Error. Status: %s, Content: %s%n",
-//                    ex.getApiResponse().getStatusCode(), ex.getApiResponse().getContent());
-//        } catch (MPException ex) {
-//            ex.printStackTrace();
-//        }
-//    }
-//
+
+    public void processWithDraw(WithDrawlRequestDTO request, Principal principal) {
+        Credentials credentials = new Credentials();
+
+
+        HashMap<String, Object> options = new HashMap<String, Object>();
+        options.put("client_id", credentials.getClientId());
+        options.put("client_secret", credentials.getClientSecret());
+        options.put("certificate", credentials.getCertificate());
+        options.put("sandbox", credentials.isSandbox());
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("idEnvio", request.getTransactionId());
+
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("valor", request.getAmount());
+        body.put("pagador", new HashMap<String, Object>().put("chave", "efipay@sejaefi.com.br"));
+        body.put("favorecido", new HashMap<String, Object>().put("chave", request.getReceiverKey()));
+
+        try {
+            EfiPay efi = new EfiPay(options);
+
+            Map<String, Object> response = efi.call("pixSend", params, body);
+            System.out.println(response);
+            walletService.deposit(principal, request.getAmount());
+
+        } catch (EfiPayException e) {
+            System.out.println(e.getError());
+            System.out.println(e.getErrorDescription());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }
