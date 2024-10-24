@@ -13,7 +13,7 @@ import com.mercadopago.resources.payment.Payment;
 import com.rafaelaugustor.flashwork.domain.entities.Credentials;
 import com.rafaelaugustor.flashwork.exception.MercadoPagoException;
 import com.rafaelaugustor.flashwork.rest.dtos.request.PixPaymentRequestDTO;
-import com.rafaelaugustor.flashwork.rest.dtos.request.WithDrawlRequestDTO;
+import com.rafaelaugustor.flashwork.rest.dtos.request.WithDrawRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.PixPaymentResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -74,7 +74,7 @@ public class PaymentService {
         }
     }
 
-    public void processWithDraw(WithDrawlRequestDTO request, Principal principal) {
+    public void processWithDraw(WithDrawRequestDTO request, Principal principal) {
         Credentials credentials = new Credentials();
 
 
