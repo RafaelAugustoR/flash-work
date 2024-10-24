@@ -1,7 +1,7 @@
 package com.rafaelaugustor.flashwork.config;
 
 import com.rafaelaugustor.flashwork.domain.enums.UserRole;
-import com.rafaelaugustor.flashwork.rest.handlers.OAuthAuthenticationSuccessHandler;
+import com.rafaelaugustor.flashwork.rest.handlers.auth.OAuthAuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
