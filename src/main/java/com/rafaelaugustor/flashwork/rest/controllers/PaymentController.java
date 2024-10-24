@@ -1,7 +1,7 @@
 package com.rafaelaugustor.flashwork.rest.controllers;
 
 import com.rafaelaugustor.flashwork.rest.dtos.request.PixPaymentRequestDTO;
-import com.rafaelaugustor.flashwork.rest.dtos.request.WithDrawRequestDTO;
+import com.rafaelaugustor.flashwork.rest.dtos.request.WithdrawRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.PixPaymentResponseDTO;
 import com.rafaelaugustor.flashwork.services.PaymentService;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class PaymentController {
     }
 
     @PostMapping("/withdraw")
-    public ResponseEntity<Void> processWithdrawal(@RequestBody WithDrawRequestDTO request, Principal principal) {
+    public ResponseEntity<Void> processWithdrawal(@RequestBody WithdrawRequestDTO request, Principal principal) {
         return ResponseEntity.ok().build();
     }
 }
