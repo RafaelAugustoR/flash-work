@@ -30,6 +30,7 @@ public class PaymentController {
 
     @PostMapping("/withdraw")
     public ResponseEntity<Void> processWithdrawal(@RequestBody WithdrawRequestDTO request, Principal principal) {
+        paymentService.processWithDraw(request, principal);
         return ResponseEntity.ok().build();
     }
 }
