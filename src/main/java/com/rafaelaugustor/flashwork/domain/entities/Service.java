@@ -62,4 +62,6 @@ public class Service {
     )
     private List<Category> categories = new ArrayList<>();
 
+    @OneToOne(mappedBy = "service")
+    private DigitalContract contract;
 }
