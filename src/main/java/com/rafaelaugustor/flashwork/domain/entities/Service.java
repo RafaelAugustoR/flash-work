@@ -54,7 +54,7 @@ public class Service {
     @JoinColumn(name = "client_id", nullable = false)
     private User client;
 
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "category_service",
             joinColumns = @JoinColumn(name = "service_id"),
@@ -64,4 +64,7 @@ public class Service {
 
     @OneToOne(mappedBy = "service")
     private DigitalContract contract;
+
+    @OneToOne(mappedBy = "service")
+    private CancellationPolicy cancellationPolicy;
 }
