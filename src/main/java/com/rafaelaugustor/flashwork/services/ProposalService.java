@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 import java.security.Principal;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -74,6 +76,37 @@ public class ProposalService {
         proposalRepository.save(proposal);
 
         return toResponseDTO(proposal);
+    }
+
+    public List<ProposalResponseDTO> findAllByService(UUID serviceId){
+
+        List<Proposal> proposals = proposalRepository.findAllByServiceId(serviceId);
+
+        return proposals.stream()
+                .map(this::toResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<ProposalResponseDTO> findAllByUser(Principal principal){
+
+        List<Proposal> proposals = proposalRepository.findAllByFreelancerEmail(principal.getName());
+
+        return proposals.stream()
+                .map(this::toResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    public void cancelProposal(UUID proposalId, Principal principal){
+
+        var proposal = proposalRepository.findById(proposalId).orElseThrow();
+
+        var client = proposal.getService().getClient();
+
+        if (!client.getEmail().equals(principal.getName())) {
+            throw new SecurityException("User is not authorized to cancel this proposal");
+        }
+
+        proposalRepository.delete(proposal);
     }
 
     private ProposalResponseDTO toResponseDTO(Proposal proposal) {
