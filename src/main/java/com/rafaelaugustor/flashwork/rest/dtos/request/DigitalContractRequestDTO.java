@@ -13,5 +13,5 @@ import java.util.UUID;
 public class DigitalContractRequestDTO {
     private UUID clientId;
     private UUID freelancerId;
-    private ServiceResponseDTO service;
+    private ServiceRequestDTO service;
 }
