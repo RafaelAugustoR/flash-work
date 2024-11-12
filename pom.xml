@@ -109,6 +109,11 @@
 			<version>2.1.29</version>
 		</dependency>
 		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itextpdf</artifactId>
+			<version>5.5.13.3</version>
+		</dependency>
+		<dependency>
 			<groupId>br.com.efipay.efisdk</groupId>
 			<artifactId>sdk-java-apis-efi</artifactId>
 			<version>1.2.1</version>
