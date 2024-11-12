@@ -97,6 +97,12 @@ public class User implements UserDetails {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Wallet wallet;
 
+    @OneToMany(mappedBy = "freelancer")
+    private List<DigitalContract> freelancerContracts;
+
+    @OneToMany(mappedBy = "client")
+    private List<DigitalContract> clientContracts;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_" + role));

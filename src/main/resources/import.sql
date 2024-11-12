@@ -147,5 +147,5 @@ INSERT INTO category_service (category_id, service_id) VALUES ('50ba3bb8-3b23-4d
 -- Adicionar endereço para usuário RAFAEL AUGUSTO
 
 INSERT INTO address (id, state, city, neighborhood, street, postal_code, house_number, type, apartment_number, apartment_name, user_id) VALUES ('3b9c23b2-8c5c-4f85-9b5c-54b78f4b8e07', 'SC', 'Criciúma', 'Santa Bárbara', 'Argemiro Frutuoso', '88804100', 111, 'HOUSE', null, null, 'c7b3ef06-484e-4dc0-bd34-d1c7a0a4c376');
-INSERT INTO address (id, state, city, neighborhood, street, postal_code, house_number, type, apartment_number, apartment_name, user_id) VALUES ('b4c7e6c0-0c3e-4a84-a5d6-4d3d7d0e831a', 'MG', 'Belo Horizonte', 'Savassi', 'Rua Tomé de Souza', '88810004', 850, 'HOUSE', null, null, 'c7b3ef06-484e-4dc0-bd34-d1c7a0a4c376');
+INSERT INTO address (id, state, city, neighborhood, street, postal_code, house_number, type, apartment_number, apartment_name, user_id) VALUES ('b4c7e6c0-0c3e-4a84-a5d6-4d3d7d0e831a', 'MG', 'Belo Horizonte', 'Savassi', 'Rua Tomé de Souza', '88810004', 850, 'HOUSE', null, null, '003eced8-e3ae-4b24-b8d4-80cfc125151c');
 
