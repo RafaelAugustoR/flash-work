@@ -88,7 +88,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Message> sentMessages;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Address> addresses;
 
     @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
