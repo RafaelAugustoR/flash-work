@@ -4,8 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 certs/
-/src/main/resources/filled_contract.pdf
-/src/main/resources/modelo_contrato.pdf
+/src/main/resources/contracts/
 
 ### STS ###
 .apt_generated

@@ -1,6 +1,7 @@
 package com.rafaelaugustor.flashwork.services;
 
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfReader;
@@ -8,15 +9,15 @@ import com.itextpdf.text.pdf.PdfStamper;
 import com.rafaelaugustor.flashwork.domain.entities.User;
 import com.rafaelaugustor.flashwork.repositories.UserRepository;
 import com.rafaelaugustor.flashwork.rest.dtos.request.DigitalContractRequestDTO;
+import com.rafaelaugustor.flashwork.rest.dtos.request.SignatureRequestDTO;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.time.LocalDate;
+import java.util.Base64;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -25,8 +26,14 @@ public class DigitalContractService {
     private final UserRepository userRepository;
 
     public void generateDocument(HttpServletResponse response, DigitalContractRequestDTO request) {
-        String templatePath = "src/main/resources/modelo_contrato.pdf";
-        String outputFilePath = "src/main/resources/filled_contract.pdf";
+        String templatePath = "src/main/resources/contracts/modelo_contrato.pdf";
+        String outputDirectory = "src/main/resources/contracts/";
+
+        String uniqueFileName = String.format("contract_%s_%s_%s.pdf",
+                request.getClientId(),
+                request.getFreelancerId(),
+                LocalDate.now());
+        String outputFilePath = outputDirectory + uniqueFileName;
 
         User client = userRepository.findById(request.getClientId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -57,7 +64,7 @@ public class DigitalContractService {
             reader.close();
 
             response.setContentType("application/pdf");
-            response.setHeader("Content-Disposition", "attachment; filename=filled_contract.pdf");
+            response.setHeader("Content-Disposition", "attachment; filename=" + uniqueFileName);
 
             try (OutputStream out = response.getOutputStream();
                  FileInputStream pdfInputStream = new FileInputStream(outputFilePath)) {
@@ -72,6 +79,45 @@ public class DigitalContractService {
             throw new RuntimeException("Erro ao preencher o formulário PDF", e);
         }
     }
+
+
+    public void addSignatureToContract(UUID clientId, UUID freelancerId, SignatureRequestDTO signatureRequest) throws FileNotFoundException {
+        byte[] decodedBytes = Base64.getDecoder().decode(signatureRequest.getImage().split(",")[1]);
+
+        String contractFileName = String.format("contract_%s_%s_%s.pdf", clientId, freelancerId, LocalDate.now());
+        String contractPath = "src/main/resources/contracts/" + contractFileName;
+        String signedContractPath = "src/main/resources/contracts/" + contractFileName.replace("contract_", "signed_contract_");
+
+        File contractFile = new File(contractPath);
+        if (!contractFile.exists()) {
+            throw new FileNotFoundException("Contrato não encontrado para os IDs fornecidos.");
+        }
+
+        PdfReader reader = null;
+        PdfStamper stamper = null;
+
+        try {
+            reader = new PdfReader(contractPath);
+            stamper = new PdfStamper(reader, new FileOutputStream(signedContractPath));
+            PdfContentByte content = stamper.getOverContent(2);
+
+            Image signatureImage = Image.getInstance(decodedBytes);
+            signatureImage.setAbsolutePosition(160, 380);
+            signatureImage.scaleAbsolute(100, 50);
+            content.addImage(signatureImage);
+
+        } catch (IOException | DocumentException e) {
+            throw new RuntimeException("Erro ao adicionar assinatura no contrato", e);
+        } finally {
+            try {
+                if (stamper != null) stamper.close();
+                if (reader != null) reader.close();
+            } catch (IOException | DocumentException e) {
+                System.err.println("Erro ao fechar recursos PDF: " + e.getMessage());
+            }
+        }
+    }
+
 
     private void addText(PdfContentByte canvas, String text, float x, float y) {
         canvas.beginText();
