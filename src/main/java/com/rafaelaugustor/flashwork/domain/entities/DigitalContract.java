@@ -1,11 +1,13 @@
 package com.rafaelaugustor.flashwork.domain.entities;
 
+import com.rafaelaugustor.flashwork.domain.enums.ContractStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -37,7 +39,15 @@ public class DigitalContract {
 
     private LocalDateTime createdAt;
 
-    private boolean isSignedByClient;
-    private boolean isSignedByFreelancer;
+    private String cloudUrl;
+
+    @Enumerated(EnumType.STRING)
+    private ContractStatus status;
+
+    private boolean signedByClient;
+    private boolean signedByFreelancer;
+
+    private LocalDate clientSignedAt;
+    private LocalDate freelancerSignedAt;
 
 }
