@@ -1,10 +1,10 @@
 package com.rafaelaugustor.flashwork.services;
 
-import com.rafaelaugustor.flashwork.domain.entities.Category;
 import com.rafaelaugustor.flashwork.domain.entities.Service;
 import com.rafaelaugustor.flashwork.domain.enums.ServiceStatus;
 import com.rafaelaugustor.flashwork.domain.enums.WorkType;
 import com.rafaelaugustor.flashwork.repositories.CategoryRepository;
+import com.rafaelaugustor.flashwork.repositories.ProposalRepository;
 import com.rafaelaugustor.flashwork.repositories.ServiceRepository;
 import com.rafaelaugustor.flashwork.repositories.UserRepository;
 import com.rafaelaugustor.flashwork.rest.dtos.request.ServiceRequestDTO;
@@ -27,6 +27,7 @@ public class ServiceService {
     private final ServiceRepository serviceRepository;
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
+    private final ProposalRepository proposalRepository;
 
     public void create(ServiceRequestDTO request, Principal principal) {
         var user = userRepository.findByEmail(principal.getName());
@@ -124,6 +125,7 @@ public class ServiceService {
     }
 
     private ServiceResponseDTO toResponseDTO(Service service) {
+        long proposalCount = proposalRepository.countByServiceId(service.getId());
         return ServiceResponseDTO.builder()
                 .id(service.getId())
                 .title(service.getTitle())
@@ -135,8 +137,9 @@ public class ServiceService {
                 .createdAt(service.getCreatedAt())
                 .client(new UserMinDTO(service.getClient()))
                 .categories(service.getCategories().stream()
-                        .map(category -> new CategoryResponseDTO(category))
+                        .map(CategoryResponseDTO::new)
                         .toList())
+                .proposalQuantity((int) proposalCount)
                 .build();
     }
 }
