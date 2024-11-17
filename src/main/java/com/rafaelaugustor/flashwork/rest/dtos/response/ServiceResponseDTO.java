@@ -25,4 +25,5 @@ public class ServiceResponseDTO {
     private Timestamp createdAt;
     private UserMinDTO client;
     private List<CategoryResponseDTO> categories;
+    private Integer proposalQuantity;
 }
