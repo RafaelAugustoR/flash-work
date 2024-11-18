@@ -13,12 +13,12 @@ import com.rafaelaugustor.flashwork.rest.dtos.response.ServiceResponseDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.UserMinDTO;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service
 @RequiredArgsConstructor
@@ -84,32 +84,26 @@ public class ServiceService {
         return toResponseDTO(service);
     }
 
-    public List<ServiceResponseDTO> findServicesByCategory(UUID categoryId) {
-        List<Service> services = serviceRepository.findByCategoriesId(categoryId);
+    public Page<ServiceResponseDTO> findServicesByCategory(UUID categoryId, Pageable pageable) {
+        Page<Service> services = serviceRepository.findByCategoriesId(categoryId, pageable);
 
-        return services.stream()
-                .map(this::toResponseDTO)
-                .collect(Collectors.toList());
+        return services.map(this::toResponseDTO);
     }
 
-    public List<ServiceResponseDTO> findServicesByUser(Principal principal) {
-        List<Service> services = serviceRepository.findByClientEmail(principal.getName());
+    public Page<ServiceResponseDTO> findServicesByUser(Principal principal, Pageable pageable) {
+        Page<Service> services = serviceRepository.findByClientEmail(principal.getName(), pageable);
 
-        return services.stream()
-                .map(this::toResponseDTO)
-                .collect(Collectors.toList());
+        return services.map(this::toResponseDTO);
     }
 
-    public List<ServiceResponseDTO> findServicesByWorkType(WorkType workType) {
-        List<Service> services = serviceRepository.findByWorkType(workType);
+    public Page<ServiceResponseDTO> findServicesByWorkType(WorkType workType, Pageable pageable) {
+        Page<Service> services = serviceRepository.findByWorkType(workType, pageable);
 
-        return services.stream()
-                .map(this::toResponseDTO)
-                .collect(Collectors.toList());
+        return services.map(this::toResponseDTO);
     }
 
     @Transactional
-    public List<ServiceResponseDTO> findServicesByUserLocation(Principal principal) {
+    public Page<ServiceResponseDTO> findServicesByUserLocation(Principal principal, Pageable pageable) {
         var user = userRepository.findByEmail(principal.getName());
 
         var city = user.getAddresses().stream().map(address -> address.getCity()).filter(address -> address != null).findFirst().orElseThrow();
@@ -117,11 +111,9 @@ public class ServiceService {
 
         var location = city + ", " + state;
 
-        var services = serviceRepository.findByLocationExcludingClient(location);
+        var services = serviceRepository.findByLocationExcludingClient(location, pageable);
 
-        return services.stream()
-                .map(this::toResponseDTO)
-                .collect(Collectors.toList());
+        return services.map(this::toResponseDTO);
     }
 
     private ServiceResponseDTO toResponseDTO(Service service) {
