@@ -4,11 +4,12 @@ import com.rafaelaugustor.flashwork.rest.dtos.request.CategoryRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.CategoryResponseDTO;
 import com.rafaelaugustor.flashwork.services.CategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 import static com.rafaelaugustor.flashwork.utils.Constants.APP_ROOT;
@@ -46,8 +47,7 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CategoryResponseDTO>> findAllCategories() {
-        List<CategoryResponseDTO> categories = categoryService.findAll();
-        return ResponseEntity.ok(categories);
+    public Page<CategoryResponseDTO> findAllCategories(Pageable pageable) {
+        return categoryService.findAll(pageable);
     }
 }

@@ -5,11 +5,11 @@ import com.rafaelaugustor.flashwork.repositories.CategoryRepository;
 import com.rafaelaugustor.flashwork.rest.dtos.request.CategoryRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.CategoryResponseDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -62,14 +62,12 @@ public class CategoryService {
                 .build();
     }
 
-    public List<CategoryResponseDTO> findAll() {
-        return categoryRepository.findAll().stream()
-                .map(category -> CategoryResponseDTO.builder()
+    public Page<CategoryResponseDTO> findAll(Pageable pageable) {
+        return categoryRepository.findAll(pageable).map(category -> CategoryResponseDTO.builder()
                         .id(category.getId())
                         .name(category.getName())
                         .iconName(category.getIconName())
                         .description(category.getDescription())
-                        .build())
-                .collect(Collectors.toList());
+                        .build());
     }
 }
