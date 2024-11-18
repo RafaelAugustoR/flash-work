@@ -31,7 +31,6 @@ public class PasswordService {
 
     private final Random random = new Random();
 
-
     public void sendOtp(Map<String, String> email) {
         var emailValue = email.get("email");
 

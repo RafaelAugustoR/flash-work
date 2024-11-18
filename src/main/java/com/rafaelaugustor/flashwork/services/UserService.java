@@ -6,6 +6,8 @@ import com.rafaelaugustor.flashwork.rest.dtos.request.UserRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.UserResponseDTO;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -48,11 +50,9 @@ public class UserService {
         return toResponseDTO(user);
     }
 
-    public List<UserResponseDTO> listAllUsers() {
-        List<User> users = repository.findAll();
-        return users.stream()
-                .map(this::toResponseDTO)
-                .collect(Collectors.toList());
+    public Page<UserResponseDTO> listAllUsers(Pageable pageable) {
+        Page<User> users = repository.findAll(pageable);
+        return users.map(this::toResponseDTO);
     }
 
     public UserResponseDTO toResponseDTO(User user) {
