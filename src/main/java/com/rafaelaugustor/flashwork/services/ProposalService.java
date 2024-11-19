@@ -8,6 +8,8 @@ import com.rafaelaugustor.flashwork.repositories.UserRepository;
 import com.rafaelaugustor.flashwork.rest.dtos.request.ProposalRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.ProposalResponseDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -78,22 +80,18 @@ public class ProposalService {
         return toResponseDTO(proposal);
     }
 
-    public List<ProposalResponseDTO> findAllByService(UUID serviceId){
+    public Page<ProposalResponseDTO> findAllByService(UUID serviceId, Pageable pageable){
 
-        List<Proposal> proposals = proposalRepository.findAllByServiceId(serviceId);
+        Page<Proposal> proposals = proposalRepository.findAllByServiceId(serviceId, pageable);
 
-        return proposals.stream()
-                .map(this::toResponseDTO)
-                .collect(Collectors.toList());
+        return proposals.map(this::toResponseDTO);
     }
 
-    public List<ProposalResponseDTO> findAllByUser(Principal principal){
+    public Page<ProposalResponseDTO> findAllByUser(Principal principal, Pageable pageable){
 
-        List<Proposal> proposals = proposalRepository.findAllByFreelancerEmail(principal.getName());
+        Page<Proposal> proposals = proposalRepository.findAllByFreelancerEmail(principal.getName(), pageable);
 
-        return proposals.stream()
-                .map(this::toResponseDTO)
-                .collect(Collectors.toList());
+        return proposals.map(this::toResponseDTO);
     }
 
     public void cancelProposal(UUID proposalId, Principal principal){

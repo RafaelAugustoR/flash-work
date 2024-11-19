@@ -5,11 +5,12 @@ import com.rafaelaugustor.flashwork.rest.dtos.request.ProposalRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.ProposalResponseDTO;
 import com.rafaelaugustor.flashwork.services.ProposalService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
 import java.util.UUID;
 
 import static com.rafaelaugustor.flashwork.utils.Constants.APP_ROOT;
@@ -38,15 +39,15 @@ public class ProposalController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<List<ProposalResponseDTO>> findAllByUser(Principal principal){
-        var proposals = proposalService.findAllByUser(principal);
+    public ResponseEntity<Page<ProposalResponseDTO>> findAllByUser(Principal principal, Pageable pageable){
+        var proposals = proposalService.findAllByUser(principal, pageable);
 
         return ResponseEntity.ok().body(proposals);
     }
 
     @GetMapping("/service/{id}")
-    public ResponseEntity<List<ProposalResponseDTO>> findAllByService(@PathVariable UUID id){
-        var proposals = proposalService.findAllByService(id);
+    public ResponseEntity<Page<ProposalResponseDTO>> findAllByService(@PathVariable UUID id, Pageable pageable){
+        var proposals = proposalService.findAllByService(id, pageable);
 
         return ResponseEntity.ok().body(proposals);
     }
