@@ -3,6 +3,8 @@ package com.rafaelaugustor.flashwork.rest.controllers;
 import com.rafaelaugustor.flashwork.rest.dtos.response.NotificationResponseDTO;
 import com.rafaelaugustor.flashwork.services.NotificationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,8 +23,8 @@ public class NotificationController {
     private final NotificationService notificationService;
 
     @GetMapping
-    public ResponseEntity<List<NotificationResponseDTO>> findAllNotifications(Principal principal) {
-        List<NotificationResponseDTO> notifications = notificationService.findAllNotificationsByUser(principal);
+    public ResponseEntity<Page<NotificationResponseDTO>> findAllNotifications(Principal principal, Pageable pageable) {
+        Page<NotificationResponseDTO> notifications = notificationService.findAllNotificationsByUser(principal, pageable);
         return ResponseEntity.ok(notifications);
     }
 
