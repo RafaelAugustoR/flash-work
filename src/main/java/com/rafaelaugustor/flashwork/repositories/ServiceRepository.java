@@ -2,6 +2,8 @@ package com.rafaelaugustor.flashwork.repositories;
 
 import com.rafaelaugustor.flashwork.domain.entities.Service;
 import com.rafaelaugustor.flashwork.domain.enums.WorkType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,12 +16,12 @@ import java.util.UUID;
 public interface ServiceRepository extends JpaRepository<Service, UUID> {
     Service findByIdAndClientEmail(UUID serviceId, String email);
 
-    List<Service> findByClientEmail(String email);
+    Page<Service> findByClientEmail(String email, Pageable pageable);
 
-    List<Service> findByCategoriesId(UUID categoryId);
+    Page<Service> findByCategoriesId(UUID categoryId, Pageable pageable);
 
-    List<Service> findByWorkType(WorkType workType);
+    Page<Service> findByWorkType(WorkType workType, Pageable pageable);
 
     @Query("SELECT s FROM Service s WHERE LOWER(s.location) = LOWER(:location)")
-    List<Service> findByLocationExcludingClient(@Param("location") String location);
+    Page<Service> findByLocationExcludingClient(@Param("location") String location, Pageable pageable);
 }

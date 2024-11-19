@@ -11,6 +11,8 @@ import com.rafaelaugustor.flashwork.rest.dtos.request.NotificationRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.NotificationResponseDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.UserMinDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
@@ -58,20 +60,13 @@ public class NotificationService {
         messagingTemplate.convertAndSend("/topic/notifications/" + receiver.getId(), notification);
     }
 
-    public List<NotificationResponseDTO> findAllNotificationsByUser(Principal principal) {
-        User user = userRepository.findByEmail(principal.getName());
-        List<Notification> notifications = notificationRepository.findByReceiverId(user.getId());
 
-        return notifications.stream()
-                .map(notification -> new NotificationResponseDTO(
-                        notification.getId(),
-                        notification.getContent(),
-                        new UserMinDTO(notification.getSender()),
-                        notification.getIsViewed(),
-                        notification.getDate(),
-                        notification.getNotificationType()
-                ))
-                .collect(Collectors.toList());
+    public Page<NotificationResponseDTO> findAllNotificationsByUser(Principal principal, Pageable pageable) {
+        User user = userRepository.findByEmail(principal.getName());
+
+        Page<Notification> notificationsPage = notificationRepository.findByReceiverId(user.getId(), pageable);
+
+        return notificationsPage.map(this::toResponseDTO);
     }
 
     public NotificationResponseDTO findById(UUID notificationId){
@@ -83,19 +78,23 @@ public class NotificationService {
             notificationRepository.save(notification);
         }
 
-        return NotificationResponseDTO.builder()
-                .id(notification.getId())
-                .content(notification.getContent())
-                .isViewed(notification.getIsViewed())
-                .date(notification.getDate())
-                .notificationType(notification.getNotificationType())
-                .sender(new UserMinDTO(notification.getSender()))
-                .build();
+        return toResponseDTO(notification);
     }
-
 
     public void delete(UUID notificationId) {
         Notification notification = notificationRepository.findById(notificationId).orElseThrow(() -> new IllegalArgumentException("Notification not found"));
         notificationRepository.delete(notification);
     }
+
+    private NotificationResponseDTO toResponseDTO(Notification notification) {
+        return new NotificationResponseDTO(
+                notification.getId(),
+                notification.getContent(),
+                new UserMinDTO(notification.getSender()),
+                notification.getIsViewed(),
+                notification.getDate(),
+                notification.getNotificationType()
+        );
+    }
+
 }

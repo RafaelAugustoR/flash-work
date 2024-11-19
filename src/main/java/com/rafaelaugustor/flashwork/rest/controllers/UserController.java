@@ -4,11 +4,12 @@ import com.rafaelaugustor.flashwork.rest.dtos.request.UserRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.UserResponseDTO;
 import com.rafaelaugustor.flashwork.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
 import java.util.UUID;
 
 import static com.rafaelaugustor.flashwork.utils.Constants.APP_ROOT;
@@ -46,9 +47,8 @@ public class UserController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<UserResponseDTO>> listAllUsers() {
-        List<UserResponseDTO> users = service.listAllUsers();
-        return ResponseEntity.ok().body(users);
+    public Page<UserResponseDTO> listAllUsers(Pageable pageable) {
+        return service.listAllUsers(pageable);
     }
 
 }
