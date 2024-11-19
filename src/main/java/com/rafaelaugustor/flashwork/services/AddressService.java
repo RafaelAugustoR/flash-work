@@ -7,6 +7,8 @@ import com.rafaelaugustor.flashwork.repositories.UserRepository;
 import com.rafaelaugustor.flashwork.rest.dtos.request.AddressRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.AddressResponseDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -68,12 +70,10 @@ public class AddressService {
         return toResponseDTO(address);
     }
 
-    public List<AddressResponseDTO> findAll(Principal principal) {
-        List<Address> addresses = addressRepository.findAllByUserEmail(principal.getName());
+    public Page<AddressResponseDTO> findAll(Principal principal, Pageable pageable) {
+        Page<Address> addresses = addressRepository.findAllByUserEmail(principal.getName(), pageable);
 
-        return addresses.stream()
-                .map(this::toResponseDTO)
-                .collect(Collectors.toList());
+        return addresses.map(this::toResponseDTO);
     }
 
     public AddressResponseDTO findById(UUID addressId, Principal principal) {

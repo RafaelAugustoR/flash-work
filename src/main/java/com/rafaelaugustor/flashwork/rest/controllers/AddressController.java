@@ -4,6 +4,8 @@ import com.rafaelaugustor.flashwork.rest.dtos.request.AddressRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.AddressResponseDTO;
 import com.rafaelaugustor.flashwork.services.AddressService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,8 +36,8 @@ public class AddressController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AddressResponseDTO>> findAllAddresses(Principal principal) {
-        List<AddressResponseDTO> addresses = addressService.findAll(principal);
+    public ResponseEntity<Page<AddressResponseDTO>> findAllAddresses(Principal principal, Pageable pageable) {
+        Page<AddressResponseDTO> addresses = addressService.findAll(principal, pageable);
         return ResponseEntity.ok().body(addresses);
     }
 
