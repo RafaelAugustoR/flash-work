@@ -41,7 +41,7 @@ public class Service {
     private WorkType workType;
 
     @Column(nullable = false, length = 50)
-    private String location;
+    private UUID addressId;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
