@@ -21,7 +21,7 @@ public class ServiceResponseDTO {
     private String budget;
     private String workType;
     private LocalDate deadline;
-    private String location;
+    private UUID addressId;
     private Timestamp createdAt;
     private UserMinDTO client;
     private List<CategoryResponseDTO> categories;

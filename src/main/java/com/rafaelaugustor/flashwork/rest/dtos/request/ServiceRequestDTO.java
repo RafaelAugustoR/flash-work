@@ -20,6 +20,6 @@ public class ServiceRequestDTO {
     private String budget;
     private LocalDate deadline;
     private WorkType workType;
-    private String location;
+    private UUID addressId;
     private List<UUID> categories;
 }
