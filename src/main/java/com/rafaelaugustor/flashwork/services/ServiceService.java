@@ -40,7 +40,7 @@ public class ServiceService {
                 .budget(request.getBudget())
                 .workType(request.getWorkType())
                 .deadline(request.getDeadline())
-                .location(request.getLocation())
+                .addressId(request.getAddressId())
                 .status(ServiceStatus.OPEN)
                 .client(user)
                 .categories(new ArrayList<>(categories))
@@ -60,7 +60,7 @@ public class ServiceService {
             service.setBudget(request.getBudget());
             service.setDeadline(request.getDeadline());
             service.setWorkType(request.getWorkType());
-            service.setLocation(request.getLocation());
+            service.setAddressId(request.getAddressId());
             service.setCategories(new ArrayList<>(categories));
 
             serviceRepository.save(service);
@@ -106,12 +106,13 @@ public class ServiceService {
     public Page<ServiceResponseDTO> findServicesByUserLocation(Principal principal, Pageable pageable) {
         var user = userRepository.findByEmail(principal.getName());
 
-        var city = user.getAddresses().stream().map(address -> address.getCity()).filter(address -> address != null).findFirst().orElseThrow();
-        var state = user.getAddresses().stream().map(address -> address.getState()).filter(address -> address != null).findFirst().orElseThrow();
+        var addressId = user.getAddresses().stream()
+                .map(address -> address.getId())
+                .filter(id -> id != null)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("User has no valid addresses."));
 
-        var location = city + ", " + state;
-
-        var services = serviceRepository.findByLocationExcludingClient(location, pageable);
+        var services = serviceRepository.findByAddressIdExcludingClient(addressId, principal.getName(), pageable);
 
         return services.map(this::toResponseDTO);
     }
@@ -125,7 +126,7 @@ public class ServiceService {
                 .budget(service.getBudget())
                 .deadline(service.getDeadline())
                 .workType(service.getWorkType().getType())
-                .location(service.getLocation())
+                .addressId(service.getAddressId())
                 .createdAt(service.getCreatedAt())
                 .client(new UserMinDTO(service.getClient()))
                 .categories(service.getCategories().stream()
