@@ -15,10 +15,10 @@ import java.util.UUID;
 public class ChatResponseDTO {
     private UUID chatId;
     private String createdAt;
-    private List<UserResponseDTO> users;
+    private List<UserMinDTO> users;
     private List<MessageResponseDTO> messages;
 
-    public ChatResponseDTO(UUID chatId, List<UserResponseDTO> users) {
+    public ChatResponseDTO(UUID chatId, List<UserMinDTO> users) {
         this.chatId = chatId;
         this.users = users;
     }

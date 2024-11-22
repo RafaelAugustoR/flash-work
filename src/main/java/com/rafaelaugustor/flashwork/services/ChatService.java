@@ -8,7 +8,7 @@ import com.rafaelaugustor.flashwork.repositories.UserRepository;
 import com.rafaelaugustor.flashwork.rest.dtos.request.ChatRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.ChatResponseDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.MessageResponseDTO;
-import com.rafaelaugustor.flashwork.rest.dtos.response.UserResponseDTO;
+import com.rafaelaugustor.flashwork.rest.dtos.response.UserMinDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,8 +41,8 @@ public class ChatService {
 
         chatRepository.save(chat);
 
-        List<UserResponseDTO> userResponseDTOs = chat.getUsers().stream()
-                .map(user -> UserResponseDTO.builder()
+        List<UserMinDTO> userResponseDTOs = chat.getUsers().stream()
+                .map(user -> UserMinDTO.builder()
                         .id(user.getId())
                         .name(user.getName())
                         .build())
@@ -55,9 +55,22 @@ public class ChatService {
 
     @Transactional
     public List<ChatResponseDTO> findAllChatsByUser(Principal principal) {
-        User user = userRepository.findByEmail(principal.getName());
-        return user.getChats().stream()
-                .map(this::toResponseDTO)
+        User currentUser = userRepository.findByEmail(principal.getName());
+
+        List<Chat> chats = chatRepository.findAllByUsersContains(currentUser);
+
+        return chats.stream()
+                .map(chat -> {
+                    List<UserMinDTO> otherUsers = chat.getUsers().stream()
+                            .filter(user -> !user.getId().equals(currentUser.getId()))
+                            .map(user -> new UserMinDTO(user.getId(), user.getName(), user.getProfilePicture(), user.getDescription()))
+                            .toList();
+
+                    return new ChatResponseDTO(
+                            chat.getId(),
+                            otherUsers
+                    );
+                })
                 .toList();
     }
 
@@ -85,7 +98,7 @@ public class ChatService {
         return new ChatResponseDTO(
                 chat.getId(),
                 chat.getUsers().stream()
-                        .map(u -> new UserResponseDTO(u.getId(), u.getName(), u.getEmail()))
+                        .map(u -> new UserMinDTO(u.getId(), u.getName(), u.getProfilePicture(), u.getUsername()))
                         .toList()
         );
     }
