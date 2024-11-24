@@ -4,6 +4,7 @@ import com.rafaelaugustor.flashwork.domain.entities.User;
 import com.rafaelaugustor.flashwork.repositories.UserRepository;
 import com.rafaelaugustor.flashwork.rest.dtos.request.UserRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.UserResponseDTO;
+import com.rafaelaugustor.flashwork.rest.dtos.response.WalletResponseDTO;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -66,6 +67,8 @@ public class UserService {
                 .description(user.getDescription())
                 .phone(user.getPhone())
                 .profession(user.getProfession())
+                .wallet(new WalletResponseDTO(user.getWallet().getId(),
+                        user.getWallet().getBalance()))
                 .build();
     }
 }
