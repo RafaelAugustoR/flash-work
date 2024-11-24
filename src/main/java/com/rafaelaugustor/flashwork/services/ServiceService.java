@@ -85,6 +85,11 @@ public class ServiceService {
     public Page<ServiceResponseDTO> findServicesByCategory(UUID categoryId, Pageable pageable) {
         Page<Service> services = serviceRepository.findByCategoriesId(categoryId, pageable);
 
+        if (!services.hasContent()) {
+            services = serviceRepository.findAll(pageable);
+            return services.map(this::toResponseDTO);
+        }
+
         return services.map(this::toResponseDTO);
     }
 
