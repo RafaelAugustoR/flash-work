@@ -67,7 +67,8 @@ public class UserService {
                 .description(user.getDescription())
                 .phone(user.getPhone())
                 .profession(user.getProfession())
-                .wallet(new WalletResponseDTO(user.getWallet()))
+                .wallet(new WalletResponseDTO(user.getWallet().getId(),
+                        user.getWallet().getBalance()))
                 .build();
     }
 }
