@@ -55,10 +55,10 @@ public class ServiceController {
         return serviceService.findServicesByWorkType(workType, pageable);
     }
 
-    @GetMapping("/location")
-    public Page<ServiceResponseDTO> findServicesByUserLocation(Principal principal,
+    @GetMapping("/city/{addressId}")
+    public Page<ServiceResponseDTO> findServicesByUserLocation(@PathVariable UUID addressId,
                                                                Pageable pageable) {
-        return serviceService.findServicesByUserLocation(principal, pageable);
+        return serviceService.findServicesByCity(addressId, pageable);
     }
 
     @PutMapping("/{id}")

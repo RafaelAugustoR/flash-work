@@ -3,10 +3,7 @@ package com.rafaelaugustor.flashwork.services;
 import com.rafaelaugustor.flashwork.domain.entities.Service;
 import com.rafaelaugustor.flashwork.domain.enums.ServiceStatus;
 import com.rafaelaugustor.flashwork.domain.enums.WorkType;
-import com.rafaelaugustor.flashwork.repositories.CategoryRepository;
-import com.rafaelaugustor.flashwork.repositories.ProposalRepository;
-import com.rafaelaugustor.flashwork.repositories.ServiceRepository;
-import com.rafaelaugustor.flashwork.repositories.UserRepository;
+import com.rafaelaugustor.flashwork.repositories.*;
 import com.rafaelaugustor.flashwork.rest.dtos.request.ServiceRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.CategoryResponseDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.ServiceResponseDTO;
@@ -27,6 +24,7 @@ public class ServiceService {
     private final ServiceRepository serviceRepository;
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
+    private final AddressRepository addressRepository;
     private final ProposalRepository proposalRepository;
 
     public void create(ServiceRequestDTO request, Principal principal) {
@@ -103,16 +101,13 @@ public class ServiceService {
     }
 
     @Transactional
-    public Page<ServiceResponseDTO> findServicesByUserLocation(Principal principal, Pageable pageable) {
-        var user = userRepository.findByEmail(principal.getName());
+    public Page<ServiceResponseDTO> findServicesByCity(UUID addressId, Pageable pageable) {
+        var address = addressRepository.findById(addressId)
+                .orElseThrow(() -> new RuntimeException("Address not found"));
 
-        var addressId = user.getAddresses().stream()
-                .map(address -> address.getId())
-                .filter(id -> id != null)
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("User has no valid addresses."));
+        var city = address.getCity();
 
-        var services = serviceRepository.findByAddressIdExcludingClient(addressId, principal.getName(), pageable);
+        var services = serviceRepository.findByCityExcludingClient(city, address.getUser().getEmail(), pageable);
 
         return services.map(this::toResponseDTO);
     }

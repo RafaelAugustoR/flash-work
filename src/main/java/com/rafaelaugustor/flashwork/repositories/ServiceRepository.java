@@ -22,7 +22,8 @@ public interface ServiceRepository extends JpaRepository<Service, UUID> {
 
     Page<Service> findByWorkType(WorkType workType, Pageable pageable);
 
-    @Query("SELECT s FROM Service s WHERE s.addressId = :addressId AND s.client.email <> :email")
-    Page<Service> findByAddressIdExcludingClient(UUID addressId, String email, Pageable pageable);
+    @Query("SELECT s FROM Service s JOIN Address a ON a.id = s.addressId WHERE a.city = :city AND s.client.email != :clientEmail")
+    Page<Service> findByCityExcludingClient(@Param("city") String city, @Param("clientEmail") String clientEmail, Pageable pageable);
+
 
 }
