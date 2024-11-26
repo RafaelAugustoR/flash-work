@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.UUID;
 
@@ -19,11 +20,13 @@ import java.util.UUID;
 public class UserService {
 
     private final UserRepository repository;
+    private final CloudinaryService cloudinaryService;
 
     public UserResponseDTO findUserByToken(Principal principal) {
         User user = repository.findByEmail(principal.getName());
         return toResponseDTO(user);
     }
+
 
     public void update(UserRequestDTO request, Principal principal) {
         User user = repository.findByEmail(principal.getName());
@@ -32,7 +35,11 @@ public class UserService {
         user.setProfession(request.getProfession());
         user.setPhone(request.getPhone());
         user.setDescription(request.getDescription());
-        user.setProfilePicture(request.getProfilePicture());
+
+        if (request.getProfileImage() != null && !request.getProfileImage().isEmpty()) {
+            String uploadedImageUrl = cloudinaryService.uploadImage(request.getProfileImage());
+            user.setProfileImage(uploadedImageUrl);
+        }
 
         repository.save(user);
     }
@@ -62,7 +69,7 @@ public class UserService {
                 .cpf(user.getCpf())
                 .birthDate(user.getBirthDate())
                 .email(user.getEmail())
-                .profilePicture(user.getProfilePicture())
+                .profileImage(user.getProfileImage())
                 .role(user.getRole())
                 .description(user.getDescription())
                 .phone(user.getPhone())

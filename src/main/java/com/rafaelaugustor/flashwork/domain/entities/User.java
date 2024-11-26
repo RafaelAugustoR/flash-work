@@ -54,7 +54,7 @@ public class User implements UserDetails {
     private String description;
 
     @Column(nullable = true)
-    private String profilePicture;
+    private String profileImage;
 
     @Column(nullable = true)
     private LocalDate birthDate;

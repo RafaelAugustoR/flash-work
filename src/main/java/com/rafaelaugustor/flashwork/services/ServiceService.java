@@ -11,11 +11,15 @@ import com.rafaelaugustor.flashwork.rest.dtos.response.UserMinDTO;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service
 @RequiredArgsConstructor
@@ -86,11 +90,14 @@ public class ServiceService {
         Page<Service> services = serviceRepository.findByCategoriesId(categoryId, pageable);
 
         if (!services.hasContent()) {
-            services = serviceRepository.findAll(pageable);
-            return services.map(this::toResponseDTO);
+            Page<Service> filteredServices = filterExpiredServices(services, pageable);
+
+            return filteredServices.map(this::toResponseDTO);
         }
 
-        return services.map(this::toResponseDTO);
+        Page<Service> filteredServices = filterExpiredServices(services, pageable);
+
+        return filteredServices.map(this::toResponseDTO);
     }
 
     public Page<ServiceResponseDTO> findServicesByUser(Principal principal, Pageable pageable) {
@@ -135,4 +142,13 @@ public class ServiceService {
                 .proposalQuantity((int) proposalCount)
                 .build();
     }
+
+    private Page<Service> filterExpiredServices(Page<Service> services, Pageable pageable) {
+        List<Service> filteredServices = services.getContent().stream()
+                .filter(service -> !service.getDeadline().isBefore(LocalDate.now()))
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(filteredServices, pageable, services.getTotalElements());
+    }
+
 }

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
@@ -32,7 +33,7 @@ public class RegisterRequestDTO {
 
     private String confirmPassword;
 
-    private String profilePicture;
+    private MultipartFile profileImage;
 
     private UserRole role;
 }

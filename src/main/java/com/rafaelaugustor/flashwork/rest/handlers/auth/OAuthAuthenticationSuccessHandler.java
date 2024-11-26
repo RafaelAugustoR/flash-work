@@ -46,7 +46,7 @@ public class OAuthAuthenticationSuccessHandler implements AuthenticationSuccessH
                     .name(oauthUser.getAttribute("name").toString())
                     .email(email)
                     .password("password")
-                    .profilePicture(oauthUser.getAttribute("picture").toString())
+                    .profileImage(oauthUser.getAttribute("picture").toString())
                     .role(UserRole.CUSTOMER)
                     .build();
             return userRepository.save(newUser);

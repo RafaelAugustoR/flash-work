@@ -25,6 +25,7 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
+    private final CloudinaryService cloudinaryService;
 
     public LoginResponseDTO login(LoginRequestDTO request) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());
@@ -37,13 +38,17 @@ public class AuthService {
 
     public void register(RegisterRequestDTO request) {
         User user = repository.findByEmail(request.getEmail());
-
         if (user != null) {
             throw new RuntimeException("Already registered");
         }
 
         if (!request.getPassword().equals(request.getConfirmPassword())) {
-            throw new RuntimeException("Password don't matches");
+            throw new RuntimeException("Password don't match");
+        }
+
+        String profileImageUrl = null;
+        if (request.getProfileImage() != null && !request.getProfileImage().isEmpty()) {
+            profileImageUrl = cloudinaryService.uploadImage(request.getProfileImage());
         }
 
         User userToSave = User.builder()
@@ -56,6 +61,7 @@ public class AuthService {
                 .description(request.getDescription())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(UserRole.CUSTOMER)
+                .profileImage(profileImageUrl)
                 .build();
 
         repository.save(userToSave);
