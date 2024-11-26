@@ -63,7 +63,7 @@ public class ChatService {
                 .map(chat -> {
                     List<UserMinDTO> otherUsers = chat.getUsers().stream()
                             .filter(user -> !user.getId().equals(currentUser.getId()))
-                            .map(user -> new UserMinDTO(user.getId(), user.getName(), user.getProfilePicture(), user.getDescription()))
+                            .map(user -> new UserMinDTO(user.getId(), user.getName(), user.getProfileImage(), user.getDescription()))
                             .toList();
 
                     return new ChatResponseDTO(
@@ -98,7 +98,7 @@ public class ChatService {
         return new ChatResponseDTO(
                 chat.getId(),
                 chat.getUsers().stream()
-                        .map(u -> new UserMinDTO(u.getId(), u.getName(), u.getProfilePicture(), u.getUsername()))
+                        .map(u -> new UserMinDTO(u.getId(), u.getName(), u.getProfileImage(), u.getUsername()))
                         .toList()
         );
     }

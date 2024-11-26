@@ -16,14 +16,14 @@ public class UserMinDTO {
 
     private String name;
 
-    private String profilePicture;
+    private String profileImage;
 
     private String description;
 
     public UserMinDTO(User entity) {
         this.id = entity.getId();
         this.name = entity.getName();
-        this.profilePicture = entity.getProfilePicture();
+        this.profileImage = entity.getProfileImage();
         this.description = entity.getDescription();
     }
 }

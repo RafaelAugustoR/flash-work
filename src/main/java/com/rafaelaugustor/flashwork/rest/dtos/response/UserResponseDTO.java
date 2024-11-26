@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -30,7 +29,7 @@ public class UserResponseDTO {
 
     private String description;
 
-    private String profilePicture;
+    private String profileImage;
 
     private LocalDate birthDate;
 
