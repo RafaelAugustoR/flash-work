@@ -10,11 +10,13 @@ import com.rafaelaugustor.flashwork.domain.entities.User;
 import com.rafaelaugustor.flashwork.repositories.UserRepository;
 import com.rafaelaugustor.flashwork.rest.dtos.request.DigitalContractRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.request.SignatureRequestDTO;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StreamUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.time.LocalDate;
 import java.util.Base64;
 import java.util.UUID;
@@ -24,8 +26,10 @@ import java.util.UUID;
 public class DigitalContractService {
 
     private final UserRepository userRepository;
+    private final CloudinaryService cloudinary;
 
-    public void generateDocument(HttpServletResponse response, DigitalContractRequestDTO request) {
+
+    public void generateDocument(DigitalContractRequestDTO request) {
         String templatePath = "src/main/resources/contracts/modelo_contrato.pdf";
         String outputDirectory = "src/main/resources/contracts/";
 
@@ -63,21 +67,61 @@ public class DigitalContractService {
             stamper.close();
             reader.close();
 
-            response.setContentType("application/pdf");
-            response.setHeader("Content-Disposition", "attachment; filename=" + uniqueFileName);
+            MultipartFile multipartFile = getMultipartFile(outputFilePath);
 
-            try (OutputStream out = response.getOutputStream();
-                 FileInputStream pdfInputStream = new FileInputStream(outputFilePath)) {
-                byte[] buffer = new byte[1024];
-                int bytesRead;
-                while ((bytesRead = pdfInputStream.read(buffer)) != -1) {
-                    out.write(buffer, 0, bytesRead);
-                }
-            }
+            String cloudinaryUrl = cloudinary.uploadFile(multipartFile);
+
+            System.out.println("PDF uploaded to Cloudinary: " + cloudinaryUrl);
 
         } catch (IOException | DocumentException e) {
-            throw new RuntimeException("Erro ao preencher o formulário PDF", e);
+            throw new RuntimeException("Error to upload", e);
         }
+    }
+
+    private static MultipartFile getMultipartFile(String outputFilePath) {
+        File fileToUpload = new File(outputFilePath);
+        return new MultipartFile() {
+
+            @Override
+            public String getName() {
+                return fileToUpload.getName();
+            }
+
+            @Override
+            public String getOriginalFilename() {
+                return fileToUpload.getName();
+            }
+
+            @Override
+            public String getContentType() {
+                return "application/pdf";
+            }
+
+            @Override
+            public boolean isEmpty() {
+                return fileToUpload.length() == 0;
+            }
+
+            @Override
+            public long getSize() {
+                return fileToUpload.length();
+            }
+
+            @Override
+            public byte[] getBytes() throws IOException {
+                return StreamUtils.copyToByteArray(new FileInputStream(fileToUpload));
+            }
+
+            @Override
+            public InputStream getInputStream() throws IOException {
+                return new FileInputStream(fileToUpload);
+            }
+
+            @Override
+            public void transferTo(File dest) throws IOException, IllegalStateException {
+                Files.copy(fileToUpload.toPath(), dest.toPath());
+            }
+        };
     }
 
     public void addSignatureToContract(UUID clientId, UUID freelancerId, SignatureRequestDTO signatureRequest) throws FileNotFoundException {
