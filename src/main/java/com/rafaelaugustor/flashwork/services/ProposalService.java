@@ -6,9 +6,12 @@ import com.rafaelaugustor.flashwork.domain.enums.ServiceStatus;
 import com.rafaelaugustor.flashwork.repositories.ProposalRepository;
 import com.rafaelaugustor.flashwork.repositories.ServiceRepository;
 import com.rafaelaugustor.flashwork.repositories.UserRepository;
+import com.rafaelaugustor.flashwork.rest.dtos.request.DigitalContractRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.request.NotificationRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.request.ProposalRequestDTO;
+import com.rafaelaugustor.flashwork.rest.dtos.request.ServiceRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.ProposalResponseDTO;
+import com.rafaelaugustor.flashwork.rest.dtos.response.UserMinDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +30,7 @@ public class ProposalService {
     private final ServiceRepository serviceRepository;
     private final UserRepository userRepository;
     private final NotificationService notificationService;
+    private final DigitalContractService digitalContractService;
 
     public ProposalResponseDTO create(ProposalRequestDTO request, Principal principal) {
         var user = userRepository.findByEmail(principal.getName());
@@ -96,8 +100,8 @@ public class ProposalService {
 
             notificationService.sendNotification(new NotificationRequestDTO(
                     rejectedMessage,
-                    p.getFreelancer().getId(),
-                    service.getClient().getId()
+                    new UserMinDTO(p.getFreelancer()),
+                    new UserMinDTO(service.getClient())
             ));
         });
 
@@ -114,10 +118,21 @@ public class ProposalService {
 
         notificationService.sendNotification(new NotificationRequestDTO(
                 acceptedMessage,
-                proposal.getFreelancer().getId(),
-                service.getClient().getId()
+                new UserMinDTO(proposal.getFreelancer()),
+                new UserMinDTO(service.getClient())
         ));
-    }
+
+        DigitalContractRequestDTO contractRequest = DigitalContractRequestDTO.builder()
+                .clientId(service.getClient().getId())
+                .freelancerId(service.getFreelancer().getId())
+                .service(new ServiceRequestDTO(service))
+                .build();
+        try {
+            digitalContractService.generateDocument(contractRequest);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao gerar o contrato", e);
+        }
+  }
 
     public ProposalResponseDTO respondToProposal(UUID proposalId, ProposalStatus status, Principal principal) {
         var proposal = proposalRepository.findById(proposalId)
