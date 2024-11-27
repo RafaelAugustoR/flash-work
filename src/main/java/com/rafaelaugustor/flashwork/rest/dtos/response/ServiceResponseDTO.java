@@ -30,4 +30,5 @@ public class ServiceResponseDTO {
     private ServiceStatus status;
     private List<CategoryResponseDTO> categories;
     private Integer proposalQuantity;
+    private UUID contractId;
 }
