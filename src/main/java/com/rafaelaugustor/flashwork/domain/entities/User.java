@@ -1,5 +1,6 @@
 package com.rafaelaugustor.flashwork.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rafaelaugustor.flashwork.domain.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -69,39 +70,51 @@ public class User implements UserDetails {
     @UpdateTimestamp
     private Timestamp updatedAt;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Education> education;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "client")
     private List<Service> services;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "reviewer")
     private List<Review> reviews;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "sender")
     private List<Notification> sentNotifications;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "receiver")
     private List<Notification> receivedNotifications;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "freelancer")
     private List<Proposal> proposals;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Message> sentMessages;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Address> addresses;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
     private List<Chat> chats;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Wallet wallet;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "freelancer")
     private List<DigitalContract> freelancerContracts;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "client")
     private List<DigitalContract> clientContracts;
 

@@ -7,6 +7,7 @@ import com.rafaelaugustor.flashwork.repositories.*;
 import com.rafaelaugustor.flashwork.rest.dtos.request.ServiceRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.CategoryResponseDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.ServiceResponseDTO;
+import com.rafaelaugustor.flashwork.rest.dtos.response.TransactionResponseDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.UserMinDTO;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -30,6 +32,8 @@ public class ServiceService {
     private final UserRepository userRepository;
     private final AddressRepository addressRepository;
     private final ProposalRepository proposalRepository;
+    private final WalletRepository walletRepository;
+    private final WalletService walletService;
 
     public void create(ServiceRequestDTO request, Principal principal) {
         var user = userRepository.findByEmail(principal.getName());
@@ -110,6 +114,12 @@ public class ServiceService {
         }
 
         service.setStatus(ServiceStatus.FINALIZED);
+
+        TransactionResponseDTO transactionResponse = walletService.transfer(
+                service.getClient().getId(),
+                service.getFreelancer().getId(),
+                BigDecimal.valueOf(1000.0)
+        );
 
         serviceRepository.save(service);
 
