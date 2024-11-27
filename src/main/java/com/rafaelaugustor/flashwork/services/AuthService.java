@@ -48,7 +48,7 @@ public class AuthService {
 
         String profileImageUrl = null;
         if (request.getProfileImage() != null && !request.getProfileImage().isEmpty()) {
-            profileImageUrl = cloudinaryService.uploadImage(request.getProfileImage());
+            profileImageUrl = cloudinaryService.uploadFile(request.getProfileImage());
         }
 
         User userToSave = User.builder()
