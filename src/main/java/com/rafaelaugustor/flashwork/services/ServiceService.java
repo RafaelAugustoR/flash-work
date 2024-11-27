@@ -116,8 +116,8 @@ public class ServiceService {
         return toResponseDTO(service);
     }
 
-    public Page<ServiceResponseDTO> findServicesByUser(Principal principal, Pageable pageable) {
-        Page<Service> services = serviceRepository.findByClientEmail(principal.getName(), pageable);
+    public Page<ServiceResponseDTO> findServicesByUserAndStatus(Principal principal, Pageable pageable, ServiceStatus status) {
+        Page<Service> services = serviceRepository.findByClientEmailAndStatus(principal.getName(), status, pageable);
 
         return services.map(this::toResponseDTO);
     }
@@ -151,6 +151,7 @@ public class ServiceService {
                 .workType(service.getWorkType())
                 .addressId(service.getAddressId())
                 .createdAt(service.getCreatedAt())
+                .status(service.getStatus())
                 .client(new UserMinDTO(service.getClient()))
                 .freelancer(service.getFreelancer() != null ? new UserMinDTO(service.getFreelancer()) : null)
                 .categories(service.getCategories().stream()
