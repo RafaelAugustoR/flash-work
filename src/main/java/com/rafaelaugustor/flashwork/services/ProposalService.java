@@ -130,7 +130,7 @@ public class ProposalService {
         try {
             digitalContractService.generateDocument(contractRequest, service.getId());
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao gerar o contrato", e);
+            throw new RuntimeException("Error to generate contract", e);
         }
     }
 

@@ -19,6 +19,8 @@ import com.rafaelaugustor.flashwork.rest.dtos.response.DigitalContractResponseDT
 import com.rafaelaugustor.flashwork.rest.dtos.response.ServiceMinDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.UserMinDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,7 +43,7 @@ public class DigitalContractService {
     private final NotificationService notificationService;
     private final CloudinaryService cloudinary;
 
-    public DigitalContractResponseDTO generateDocument(DigitalContractRequestDTO request, UUID serviceId) {
+    public void generateDocument(DigitalContractRequestDTO request, UUID serviceId) {
         String templatePath = "src/main/resources/contracts/modelo_contrato.pdf";
         String outputDirectory = "src/main/resources/contracts/";
 
@@ -98,7 +100,6 @@ public class DigitalContractService {
 
             digitalContractRepository.save(contract);
 
-            return toResponseDTO(contract);
 
         } catch (IOException | DocumentException e) {
             throw new RuntimeException("Error to upload", e);
@@ -183,6 +184,18 @@ public class DigitalContractService {
                     new UserMinDTO(contract.getFreelancer())
             ));
         }
+        return toResponseDTO(contract);
+    }
+
+    public Page<DigitalContractResponseDTO> findContractsByUser(Principal principal, Pageable pageable) {
+        var user = userRepository.findByEmail(principal.getName());
+        Page<DigitalContract> contracts = digitalContractRepository.findByClientOrFreelancer(user, user, pageable);
+        return contracts.map(this::toResponseDTO);
+    }
+
+    public DigitalContractResponseDTO getContractById(UUID contractId) throws FileNotFoundException {
+        DigitalContract contract = digitalContractRepository.findById(contractId)
+                .orElseThrow(() -> new FileNotFoundException("Contract not found."));
         return toResponseDTO(contract);
     }
 
