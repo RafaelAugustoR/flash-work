@@ -169,12 +169,6 @@ public class ProposalService {
 
         var proposal = proposalRepository.findById(proposalId).orElseThrow();
 
-        var client = proposal.getService().getClient();
-
-        if (!client.getEmail().equals(principal.getName())) {
-            throw new SecurityException("User is not authorized to cancel this proposal");
-        }
-
         proposalRepository.delete(proposal);
     }
 
