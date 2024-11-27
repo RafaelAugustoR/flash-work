@@ -15,6 +15,8 @@ import com.rafaelaugustor.flashwork.repositories.UserRepository;
 import com.rafaelaugustor.flashwork.rest.dtos.request.DigitalContractRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.request.NotificationRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.request.SignatureRequestDTO;
+import com.rafaelaugustor.flashwork.rest.dtos.response.DigitalContractResponseDTO;
+import com.rafaelaugustor.flashwork.rest.dtos.response.ServiceMinDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.UserMinDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,7 +41,7 @@ public class DigitalContractService {
     private final NotificationService notificationService;
     private final CloudinaryService cloudinary;
 
-    public void generateDocument(DigitalContractRequestDTO request, UUID serviceId) {
+    public DigitalContractResponseDTO generateDocument(DigitalContractRequestDTO request, UUID serviceId) {
         String templatePath = "src/main/resources/contracts/modelo_contrato.pdf";
         String outputDirectory = "src/main/resources/contracts/";
 
@@ -96,12 +98,14 @@ public class DigitalContractService {
 
             digitalContractRepository.save(contract);
 
+            return toResponseDTO(contract);
+
         } catch (IOException | DocumentException e) {
             throw new RuntimeException("Error to upload", e);
         }
     }
 
-    public void addSignatureToContract(UUID contractId, Principal principal, SignatureRequestDTO signatureRequest) throws FileNotFoundException {
+    public DigitalContractResponseDTO addSignatureToContract(UUID contractId, Principal principal, SignatureRequestDTO signatureRequest) throws FileNotFoundException {
 
         DigitalContract contract = digitalContractRepository.findById(contractId)
                 .orElseThrow(() -> new FileNotFoundException("Contrato não encontrado para o ID fornecido."));
@@ -143,7 +147,7 @@ public class DigitalContractService {
 
             byte[] decodedBytes = Base64.getDecoder().decode(signatureRequest.getImage().split(",")[1]);
             Image signatureImage = Image.getInstance(decodedBytes);
-            signatureImage.setAbsolutePosition(isClient ? 100 : 400, 380); // Posição diferente para cliente e freelancer
+            signatureImage.setAbsolutePosition(isClient ? 100 : 400, 380);
             signatureImage.scaleAbsolute(100, 50);
             content.addImage(signatureImage);
 
@@ -179,8 +183,8 @@ public class DigitalContractService {
                     new UserMinDTO(contract.getFreelancer())
             ));
         }
+        return toResponseDTO(contract);
     }
-
 
     private static MultipartFile getMultipartFile(String outputFilePath) {
         File fileToUpload = new File(outputFilePath);
@@ -233,5 +237,20 @@ public class DigitalContractService {
         canvas.setTextMatrix(x, y);
         canvas.showText(text);
         canvas.endText();
+    }
+
+    private DigitalContractResponseDTO toResponseDTO(DigitalContract digitalContract) {
+        return DigitalContractResponseDTO.builder()
+                .id(digitalContract.getId())
+                .service(new ServiceMinDTO(digitalContract.getService()))
+                .client(new UserMinDTO(digitalContract.getClient()))
+                .freelancer(new UserMinDTO(digitalContract.getFreelancer()))
+                .signedByClient(digitalContract.isSignedByClient())
+                .signedByFreelancer(digitalContract.isSignedByFreelancer())
+                .cloudUrl(digitalContract.getCloudUrl())
+                .status(digitalContract.getStatus())
+                .freelancerSignedAt(digitalContract.getFreelancerSignedAt())
+                .clientSignedAt(digitalContract.getClientSignedAt())
+                .build();
     }
 }
