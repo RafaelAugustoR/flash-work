@@ -102,6 +102,20 @@ public class ServiceService {
         return filteredServices.map(this::toResponseDTO);
     }
 
+    public ServiceResponseDTO markAsFinalized(UUID serviceId, Principal principal) {
+        Service service = serviceRepository.findByIdAndClientEmail(serviceId, principal.getName());
+
+        if (service.getStatus() == ServiceStatus.FINALIZED) {
+            throw new RuntimeException("Service is already finalized");
+        }
+
+        service.setStatus(ServiceStatus.FINALIZED);
+
+        serviceRepository.save(service);
+
+        return toResponseDTO(service);
+    }
+
     public Page<ServiceResponseDTO> findServicesByUser(Principal principal, Pageable pageable) {
         Page<Service> services = serviceRepository.findByClientEmail(principal.getName(), pageable);
 
