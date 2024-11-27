@@ -16,6 +16,7 @@ import com.rafaelaugustor.flashwork.rest.dtos.request.PixPaymentRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.request.WithdrawRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.PixPaymentResponseDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -28,27 +29,22 @@ public class PaymentService {
 
     private final WalletService walletService;
 
+    @Value("${ACCESS_TOKEN}")
+    private String accessToken;
+
     public PixPaymentResponseDTO processPixPayment(PixPaymentRequestDTO request, Principal principal) {
         try {
-            MercadoPagoConfig.setAccessToken("ACCESS_TOKEN");
+            MercadoPagoConfig.setAccessToken(accessToken);
 
             PaymentClient paymentClient = new PaymentClient();
 
             PaymentCreateRequest paymentCreateRequest =
                     PaymentCreateRequest.builder()
                             .transactionAmount(request.getTransactionAmount())
-                            .description(request.getDescription())
                             .paymentMethodId("pix")
                             .payer(
                                     PaymentPayerRequest.builder()
                                             .email(request.getPayer().getEmail())
-                                            .firstName(request.getPayer().getFirstName())
-                                            .lastName(request.getPayer().getLastName())
-                                            .identification(
-                                                    IdentificationRequest.builder()
-                                                            .type(request.getPayer().getIdentification().getType())
-                                                            .number(request.getPayer().getIdentification().getNumber())
-                                                            .build())
                                             .build())
                             .build();
 
