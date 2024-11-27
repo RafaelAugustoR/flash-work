@@ -22,6 +22,7 @@ public class ServiceResponseDTO {
     private String workType;
     private LocalDate deadline;
     private UUID addressId;
+    private UserMinDTO freelancer;
     private Timestamp createdAt;
     private UserMinDTO client;
     private List<CategoryResponseDTO> categories;

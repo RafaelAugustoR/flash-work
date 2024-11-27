@@ -54,6 +54,10 @@ public class Service {
     @JoinColumn(name = "client_id", nullable = false)
     private User client;
 
+    @ManyToOne
+    @JoinColumn(name = "freelancer_id", nullable = true)
+    private User freelancer;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "category_service",
@@ -64,7 +68,4 @@ public class Service {
 
     @OneToOne(mappedBy = "service")
     private DigitalContract contract;
-
-    @OneToOne(mappedBy = "service")
-    private CancellationPolicy cancellationPolicy;
 }
