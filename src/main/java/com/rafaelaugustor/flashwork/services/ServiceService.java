@@ -90,7 +90,9 @@ public class ServiceService {
         Page<Service> services = serviceRepository.findByCategoriesId(categoryId, pageable);
 
         if (!services.hasContent()) {
-            Page<Service> filteredServices = filterExpiredServices(services, pageable);
+            Page<Service> allServices = serviceRepository.findAll(pageable);
+
+            Page<Service> filteredServices = filterExpiredServices(allServices, pageable);
 
             return filteredServices.map(this::toResponseDTO);
         }
@@ -136,6 +138,7 @@ public class ServiceService {
                 .addressId(service.getAddressId())
                 .createdAt(service.getCreatedAt())
                 .client(new UserMinDTO(service.getClient()))
+                .freelancer(service.getFreelancer() != null ? new UserMinDTO(service.getFreelancer()) : null)
                 .categories(service.getCategories().stream()
                         .map(CategoryResponseDTO::new)
                         .toList())
