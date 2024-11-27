@@ -148,7 +148,7 @@ public class ServiceService {
                 .description(service.getDescription())
                 .budget(service.getBudget())
                 .deadline(service.getDeadline())
-                .workType(service.getWorkType().getType())
+                .workType(service.getWorkType())
                 .addressId(service.getAddressId())
                 .createdAt(service.getCreatedAt())
                 .client(new UserMinDTO(service.getClient()))
