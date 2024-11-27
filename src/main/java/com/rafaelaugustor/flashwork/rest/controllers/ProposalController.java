@@ -48,8 +48,9 @@ public class ProposalController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<Page<ProposalResponseDTO>> findAllByUser(Principal principal, Pageable pageable) {
-        var proposals = proposalService.findAllByUser(principal, pageable);
+    public ResponseEntity<Page<ProposalResponseDTO>> findAllByUserAndStatus(Principal principal, Pageable pageable,
+                                                                            ProposalStatus status) {
+        var proposals = proposalService.findProposalsByUserAndStatus(principal, pageable, status);
 
         return ResponseEntity.ok().body(proposals);
     }

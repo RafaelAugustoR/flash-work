@@ -1,6 +1,7 @@
 package com.rafaelaugustor.flashwork.repositories;
 
 import com.rafaelaugustor.flashwork.domain.entities.Proposal;
+import com.rafaelaugustor.flashwork.domain.enums.ProposalStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,4 +17,6 @@ public interface ProposalRepository extends JpaRepository<Proposal, UUID> {
     Page<Proposal> findAllByServiceId(UUID serviceId, Pageable pageable);
 
     Integer countByServiceId(UUID serviceId);
+
+    Page<Proposal> findByClientEmailAndStatus(String email, ProposalStatus status, Pageable pageable);
 }
