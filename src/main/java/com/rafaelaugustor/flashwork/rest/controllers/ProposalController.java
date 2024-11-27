@@ -38,15 +38,24 @@ public class ProposalController {
         return ResponseEntity.ok(response);
     }
 
+    @PatchMapping("/{proposalId}/accept")
+    public ResponseEntity<Void> acceptProposal(
+            @PathVariable UUID proposalId,
+            Principal principal,
+            Pageable pageable) {
+        proposalService.acceptProposal(proposalId, principal, pageable);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/user")
-    public ResponseEntity<Page<ProposalResponseDTO>> findAllByUser(Principal principal, Pageable pageable){
+    public ResponseEntity<Page<ProposalResponseDTO>> findAllByUser(Principal principal, Pageable pageable) {
         var proposals = proposalService.findAllByUser(principal, pageable);
 
         return ResponseEntity.ok().body(proposals);
     }
 
     @GetMapping("/service/{id}")
-    public ResponseEntity<Page<ProposalResponseDTO>> findAllByService(@PathVariable UUID id, Pageable pageable){
+    public ResponseEntity<Page<ProposalResponseDTO>> findAllByService(@PathVariable UUID id, Pageable pageable) {
         var proposals = proposalService.findAllByService(id, pageable);
 
         return ResponseEntity.ok().body(proposals);

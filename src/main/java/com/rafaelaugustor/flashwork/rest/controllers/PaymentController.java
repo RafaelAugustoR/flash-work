@@ -7,10 +7,7 @@ import com.rafaelaugustor.flashwork.services.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
@@ -19,6 +16,7 @@ import static com.rafaelaugustor.flashwork.utils.Constants.APP_ROOT;
 @RestController
 @RequestMapping(APP_ROOT + "/process_payment")
 @RequiredArgsConstructor
+@CrossOrigin
 public class PaymentController {
     private final PaymentService paymentService;
 

@@ -11,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.security.Principal;
 import java.util.UUID;
 
@@ -37,7 +36,7 @@ public class UserService {
         user.setDescription(request.getDescription());
 
         if (request.getProfileImage() != null && !request.getProfileImage().isEmpty()) {
-            String uploadedImageUrl = cloudinaryService.uploadImage(request.getProfileImage());
+            String uploadedImageUrl = cloudinaryService.uploadFile(request.getProfileImage());
             user.setProfileImage(uploadedImageUrl);
         }
 

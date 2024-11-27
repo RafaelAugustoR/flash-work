@@ -8,13 +8,13 @@ import com.rafaelaugustor.flashwork.rest.dtos.request.EducationRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.EducationResponseDTO;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -37,11 +37,18 @@ public class EducationService {
     }
 
     @Transactional
-    public List<EducationResponseDTO> findAll(Principal principal) {
+    public Page<EducationResponseDTO> findAll(Principal principal, Pageable pageable) {
         User user = userRepository.findByEmail(principal.getName());
-        return user.getEducation().stream()
-                .map(education -> new EducationResponseDTO(education.getId(), education.getDegreeType(), education.getCourse(), education.getInstitution(), education.getYearOfCompletion(), education.getYearOfInitiation()))
-                .collect(Collectors.toList());
+
+
+        return educationRepository.findAllByUser(user, pageable)
+                .map(education -> new EducationResponseDTO(
+                        education.getId(),
+                        education.getDegreeType(),
+                        education.getCourse(),
+                        education.getInstitution(),
+                        education.getYearOfCompletion(),
+                        education.getYearOfInitiation()));
     }
 
     public void update(UUID educationId, EducationRequestDTO request, Principal principal) {

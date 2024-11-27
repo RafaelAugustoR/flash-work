@@ -11,7 +11,5 @@ public class PixPaymentRequestDTO {
 
     private BigDecimal transactionAmount;
 
-    private String description;
-
     private PayerRequestDTO payer;
 }

@@ -4,6 +4,8 @@ import com.rafaelaugustor.flashwork.rest.dtos.request.EducationRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.EducationResponseDTO;
 import com.rafaelaugustor.flashwork.services.EducationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,8 +30,8 @@ public class EducationController {
     }
 
     @GetMapping
-    public ResponseEntity<List<EducationResponseDTO>> findAllEducations(Principal principal) {
-        var educations = educationService.findAll(principal);
+    public ResponseEntity<Page<EducationResponseDTO>> findAllEducations(Principal principal, Pageable pageable) {
+        var educations = educationService.findAll(principal, pageable);
         return ResponseEntity.ok().body(educations);
     }
 

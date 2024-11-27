@@ -20,25 +20,25 @@ INSERT INTO messages (id, content, user_id, chat_id, sent_at, read_at)
 VALUES ('cc12d7c4-1d79-41dc-9eb3-5e7a14b70845', 'Perfeito, já estou preparando minha parte.', '10caa2d5-22d9-4d4a-82d6-824ec304e288', '417f23e9-2e5d-45f1-870c-12f3ea7b84cb', NOW(), NULL);
 
 INSERT INTO messages (id, content, user_id, chat_id, sent_at, read_at)
-VALUES ('ad1e7e8c-2bfa-4a65-b0e2-69ab74958246', 'Olá, Eduarda! Já revisou o documento?', 'fec2a3d3-350c-49d8-9c9c-47f5944800de', '2c3976a4-257d-4b6a-9317-7e4595d115cb', NOW(), NULL);
+VALUES ('ad1e7e8c-2bfa-4a65-b0e2-69ab74958246', 'Olá, Eduarda! Já revisou o documento?', 'c7b3ef06-484e-4dc0-bd34-d1c7a0a4c376', '2c3976a4-257d-4b6a-9317-7e4595d115cb', NOW(), NULL);
 
 INSERT INTO messages (id, content, user_id, chat_id, sent_at, read_at)
 VALUES ('e2d4f495-1e94-40a2-8b1a-635ce5b7b00b', 'Oi, Daniel! Estou terminando agora, já envio.', '10caa2d5-22d9-4d4a-82d6-824ec304e288', '2c3976a4-257d-4b6a-9317-7e4595d115cb', NOW(), NULL);
 
 INSERT INTO messages (id, content, user_id, chat_id, sent_at, read_at)
-VALUES ('d5f7e926-4b4b-44cb-880b-44fb01a7b68f', 'Ótimo, vou revisar assim que receber.', 'fec2a3d3-350c-49d8-9c9c-47f5944800de', '2c3976a4-257d-4b6a-9317-7e4595d115cb', NOW(), NULL);
+VALUES ('d5f7e926-4b4b-44cb-880b-44fb01a7b68f', 'Ótimo, vou revisar assim que receber.', 'c7b3ef06-484e-4dc0-bd34-d1c7a0a4c376', '2c3976a4-257d-4b6a-9317-7e4595d115cb', NOW(), NULL);
 
 INSERT INTO messages (id, content, user_id, chat_id, sent_at, read_at)
 VALUES ('5ecb2a21-5182-4dd8-ae3c-8ccddcfa63a4', 'Pronto, acabei de enviar para o seu e-mail.', '10caa2d5-22d9-4d4a-82d6-824ec304e288', '2c3976a4-257d-4b6a-9317-7e4595d115cb', NOW(), NULL);
 
 INSERT INTO messages (id, content, user_id, chat_id, sent_at, read_at)
-VALUES ('f10275e8-5690-4e89-9ebd-9eaf1d6fa2e3', 'Eduarda, conseguiu falar com o cliente?', 'fec2a3d3-350c-49d8-9c9c-47f5944800de', '48f4d346-5437-4139-a358-b487f2b442e3', NOW(), NULL);
+VALUES ('f10275e8-5690-4e89-9ebd-9eaf1d6fa2e3', 'Eduarda, conseguiu falar com o cliente?', 'c7b3ef06-484e-4dc0-bd34-d1c7a0a4c376', '48f4d346-5437-4139-a358-b487f2b442e3', NOW(), NULL);
 
 INSERT INTO messages (id, content, user_id, chat_id, sent_at, read_at)
 VALUES ('39c916cb-3c61-41cf-9c4e-6f97e3b43058', 'Sim, ele está de acordo com os ajustes.', '10caa2d5-22d9-4d4a-82d6-824ec304e288', '48f4d346-5437-4139-a358-b487f2b442e3', NOW(), NULL);
 
 INSERT INTO messages (id, content, user_id, chat_id, sent_at, read_at)
-VALUES ('a1f63879-2a68-45ec-8c0a-9146ef9b2e44', 'Excelente! Vou atualizar a apresentação.', 'fec2a3d3-350c-49d8-9c9c-47f5944800de', '48f4d346-5437-4139-a358-b487f2b442e3', NOW(), NULL);
+VALUES ('a1f63879-2a68-45ec-8c0a-9146ef9b2e44', 'Excelente! Vou atualizar a apresentação.', 'c7b3ef06-484e-4dc0-bd34-d1c7a0a4c376', '48f4d346-5437-4139-a358-b487f2b442e3', NOW(), NULL);
 
 INSERT INTO messages (id, content, user_id, chat_id, sent_at, read_at)
 VALUES ('5042bf66-c3c6-4359-82b2-611a42c7568a', 'Perfeito, qualquer coisa me avisa!', '10caa2d5-22d9-4d4a-82d6-824ec304e288', '48f4d346-5437-4139-a358-b487f2b442e3', NOW(), NULL);

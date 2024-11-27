@@ -90,7 +90,9 @@ public class ServiceService {
         Page<Service> services = serviceRepository.findByCategoriesId(categoryId, pageable);
 
         if (!services.hasContent()) {
-            Page<Service> filteredServices = filterExpiredServices(services, pageable);
+            Page<Service> allServices = serviceRepository.findAll(pageable);
+
+            Page<Service> filteredServices = filterExpiredServices(allServices, pageable);
 
             return filteredServices.map(this::toResponseDTO);
         }
@@ -98,6 +100,20 @@ public class ServiceService {
         Page<Service> filteredServices = filterExpiredServices(services, pageable);
 
         return filteredServices.map(this::toResponseDTO);
+    }
+
+    public ServiceResponseDTO markAsFinalized(UUID serviceId, Principal principal) {
+        Service service = serviceRepository.findByIdAndClientEmail(serviceId, principal.getName());
+
+        if (service.getStatus() == ServiceStatus.FINALIZED) {
+            throw new RuntimeException("Service is already finalized");
+        }
+
+        service.setStatus(ServiceStatus.FINALIZED);
+
+        serviceRepository.save(service);
+
+        return toResponseDTO(service);
     }
 
     public Page<ServiceResponseDTO> findServicesByUser(Principal principal, Pageable pageable) {
@@ -132,10 +148,11 @@ public class ServiceService {
                 .description(service.getDescription())
                 .budget(service.getBudget())
                 .deadline(service.getDeadline())
-                .workType(service.getWorkType().getType())
+                .workType(service.getWorkType())
                 .addressId(service.getAddressId())
                 .createdAt(service.getCreatedAt())
                 .client(new UserMinDTO(service.getClient()))
+                .freelancer(service.getFreelancer() != null ? new UserMinDTO(service.getFreelancer()) : null)
                 .categories(service.getCategories().stream()
                         .map(CategoryResponseDTO::new)
                         .toList())

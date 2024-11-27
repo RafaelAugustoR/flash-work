@@ -18,9 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,9 +31,9 @@ public class NotificationService {
 
     public void sendNotification(NotificationRequestDTO request) {
 
-        User sender = userRepository.findById(request.getSender())
+        User sender = userRepository.findById(request.getSender().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Receiver not found"));
-        User receiver = userRepository.findById(request.getReceiver())
+        User receiver = userRepository.findById(request.getReceiver().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Receiver not found"));
 
         Notification notification = Notification.builder()

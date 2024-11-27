@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
 import java.util.UUID;
 
 import static com.rafaelaugustor.flashwork.utils.Constants.APP_ROOT;
@@ -65,6 +64,16 @@ public class ServiceController {
     public ResponseEntity<ServiceResponseDTO> updateService(@PathVariable UUID id, @RequestBody ServiceRequestDTO request, Principal principal) {
         var service = serviceService.update(id, request, principal);
         return ResponseEntity.ok().body(service);
+    }
+
+    @PutMapping("/{serviceId}/finalize")
+    public ResponseEntity<ServiceResponseDTO> markServiceAsFinalized(
+            @PathVariable UUID serviceId,
+            Principal principal) {
+
+        ServiceResponseDTO response = serviceService.markAsFinalized(serviceId, principal);
+
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
