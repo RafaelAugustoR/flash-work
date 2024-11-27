@@ -31,9 +31,9 @@ public class NotificationService {
 
     public void sendNotification(NotificationRequestDTO request) {
 
-        User sender = userRepository.findById(request.getSender())
+        User sender = userRepository.findById(request.getSender().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Receiver not found"));
-        User receiver = userRepository.findById(request.getReceiver())
+        User receiver = userRepository.findById(request.getReceiver().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Receiver not found"));
 
         Notification notification = Notification.builder()
