@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,7 +24,7 @@ public class ServiceRequestDTO {
     private LocalDate deadline;
     private WorkType workType;
     private UUID addressId;
-    private List<UUID> categories;
+    private List<UUID> categories = new ArrayList<>();
 
     public ServiceRequestDTO(Service service) {
         this.title = service.getTitle();
