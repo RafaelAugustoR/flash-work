@@ -2,6 +2,7 @@ package com.rafaelaugustor.flashwork.rest.controllers;
 
 import com.rafaelaugustor.flashwork.rest.dtos.request.DigitalContractRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.request.SignatureRequestDTO;
+import com.rafaelaugustor.flashwork.rest.dtos.response.DigitalContractResponseDTO;
 import com.rafaelaugustor.flashwork.services.DigitalContractService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,13 +23,13 @@ public class DigitalContractController {
     private final DigitalContractService digitalContractService;
 
     @PostMapping("/{serviceId}/generate")
-    public void generateDocument(@RequestBody DigitalContractRequestDTO request, @PathVariable UUID serviceId) {
-        digitalContractService.generateDocument(request, serviceId);
+    public ResponseEntity<DigitalContractResponseDTO> generateDocument(@RequestBody DigitalContractRequestDTO request, @PathVariable UUID serviceId) {
+        var contract = digitalContractService.generateDocument(request, serviceId);
+        return ResponseEntity.ok(contract);
     }
 
     @PostMapping("/{contractId}/sign")
-    public ResponseEntity<String> addSignatureToContract(@PathVariable UUID contractId, Principal principal, @RequestBody SignatureRequestDTO signatureRequest) throws FileNotFoundException {
-        digitalContractService.addSignatureToContract(contractId, principal, signatureRequest);
-        return ResponseEntity.ok("Assinatura adicionada com sucesso!");
+    public ResponseEntity<DigitalContractResponseDTO> addSignatureToContract(@PathVariable UUID contractId, Principal principal, @RequestBody SignatureRequestDTO signatureRequest) throws FileNotFoundException {
+        return ResponseEntity.ok(digitalContractService.addSignatureToContract(contractId, principal, signatureRequest));
     }
 }
