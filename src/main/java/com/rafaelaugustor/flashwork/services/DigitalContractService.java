@@ -80,7 +80,6 @@ public class DigitalContractService {
         }
     }
 
-
     public void addSignatureToContract(UUID clientId, UUID freelancerId, SignatureRequestDTO signatureRequest) throws FileNotFoundException {
         byte[] decodedBytes = Base64.getDecoder().decode(signatureRequest.getImage().split(",")[1]);
 
