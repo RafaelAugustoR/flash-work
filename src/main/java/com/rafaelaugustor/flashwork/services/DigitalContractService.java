@@ -9,6 +9,7 @@ import com.itextpdf.text.pdf.PdfStamper;
 import com.rafaelaugustor.flashwork.domain.entities.DigitalContract;
 import com.rafaelaugustor.flashwork.domain.entities.User;
 import com.rafaelaugustor.flashwork.domain.enums.ContractStatus;
+import com.rafaelaugustor.flashwork.domain.enums.ServiceStatus;
 import com.rafaelaugustor.flashwork.repositories.DigitalContractRepository;
 import com.rafaelaugustor.flashwork.repositories.ServiceRepository;
 import com.rafaelaugustor.flashwork.repositories.UserRepository;
@@ -183,6 +184,12 @@ public class DigitalContractService {
                     new UserMinDTO(contract.getClient()),
                     new UserMinDTO(contract.getFreelancer())
             ));
+
+            var service = contract.getService();
+
+            service.setStatus(ServiceStatus.IN_PROGRESS);
+
+            serviceRepository.save(service);
         }
         return toResponseDTO(contract);
     }

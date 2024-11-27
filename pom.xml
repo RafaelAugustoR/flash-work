@@ -14,7 +14,7 @@
 	<name>flash-work</name>
 	<description>flash-work</description>
 	<properties>
-		<java.version>22</java.version>
+		<java.version>23</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
