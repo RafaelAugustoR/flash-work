@@ -3,7 +3,6 @@ package com.rafaelaugustor.flashwork.rest.controllers;
 import com.rafaelaugustor.flashwork.rest.dtos.request.DigitalContractRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.request.SignatureRequestDTO;
 import com.rafaelaugustor.flashwork.services.DigitalContractService;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +21,8 @@ public class DigitalContractController {
     private final DigitalContractService documentGenerator;
 
     @PostMapping("/generate")
-    public void generateDocument(HttpServletResponse response, @RequestBody DigitalContractRequestDTO request) {
-        documentGenerator.generateDocument(response, request);
+    public void generateDocument(@RequestBody DigitalContractRequestDTO request) {
+        documentGenerator.generateDocument(request);
     }
 
     @PostMapping("/sign")
