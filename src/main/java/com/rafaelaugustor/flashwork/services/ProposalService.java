@@ -11,7 +11,6 @@ import com.rafaelaugustor.flashwork.rest.dtos.request.NotificationRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.request.ProposalRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.request.ServiceRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.ProposalResponseDTO;
-import com.rafaelaugustor.flashwork.rest.dtos.response.ServiceResponseDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.UserMinDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -167,7 +166,7 @@ public class ProposalService {
     }
 
     public Page<ProposalResponseDTO> findProposalsByUserAndStatus(Principal principal, Pageable pageable, ProposalStatus status) {
-        Page<Proposal> proposals = proposalRepository.findByClientEmailAndStatus(principal.getName(), status, pageable);
+        Page<Proposal> proposals = proposalRepository.findByFreelancerEmailAndStatus(principal.getName(), status, pageable);
 
         return proposals.map(this::toResponseDTO);
     }

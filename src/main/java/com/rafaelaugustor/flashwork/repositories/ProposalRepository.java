@@ -18,5 +18,5 @@ public interface ProposalRepository extends JpaRepository<Proposal, UUID> {
 
     Integer countByServiceId(UUID serviceId);
 
-    Page<Proposal> findByClientEmailAndStatus(String email, ProposalStatus status, Pageable pageable);
+    Page<Proposal> findByFreelancerEmailAndStatus(String email, ProposalStatus status, Pageable pageable);
 }
