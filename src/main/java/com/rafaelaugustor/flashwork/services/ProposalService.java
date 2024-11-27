@@ -105,7 +105,7 @@ public class ProposalService {
             ));
         });
 
-        service.setStatus(ServiceStatus.IN_PROGRESS);
+        service.setStatus(ServiceStatus.IN_PROCESS);
         service.setFreelancer(proposal.getFreelancer());
         serviceRepository.save(service);
 
