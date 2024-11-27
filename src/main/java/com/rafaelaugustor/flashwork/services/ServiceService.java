@@ -158,6 +158,7 @@ public class ServiceService {
                         .map(CategoryResponseDTO::new)
                         .toList())
                 .proposalQuantity((int) proposalCount)
+                .contractId(service.getContract() != null ? service.getContract().getId() : null)
                 .build();
     }
 

@@ -153,6 +153,15 @@ public class DigitalContractService {
             signatureImage.scaleAbsolute(100, 50);
             content.addImage(signatureImage);
 
+            stamper.close();
+            reader.close();
+
+            MultipartFile signedContractFile = getMultipartFile(signedContractPath);
+
+            String updatedCloudinaryUrl = cloudinary.uploadFile(signedContractFile);
+
+            contract.setCloudUrl(updatedCloudinaryUrl);
+
         } catch (IOException | DocumentException e) {
             throw new RuntimeException("Erro ao adicionar assinatura no contrato", e);
         } finally {
@@ -186,11 +195,10 @@ public class DigitalContractService {
             ));
 
             var service = contract.getService();
-
             service.setStatus(ServiceStatus.IN_PROGRESS);
-
             serviceRepository.save(service);
         }
+
         return toResponseDTO(contract);
     }
 
