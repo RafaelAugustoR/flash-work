@@ -1,5 +1,6 @@
 package com.rafaelaugustor.flashwork.rest.controllers;
 
+import com.rafaelaugustor.flashwork.domain.enums.ServiceStatus;
 import com.rafaelaugustor.flashwork.domain.enums.WorkType;
 import com.rafaelaugustor.flashwork.rest.dtos.request.ServiceRequestDTO;
 import com.rafaelaugustor.flashwork.rest.dtos.response.ServiceResponseDTO;
@@ -42,10 +43,11 @@ public class ServiceController {
         return serviceService.findServicesByCategory(id, pageable);
     }
 
-    @GetMapping("/user")
+    @GetMapping("/user/{status}")
     public Page<ServiceResponseDTO> findServicesByUser(Principal principal,
-                                                       Pageable pageable) {
-        return serviceService.findServicesByUser(principal, pageable);
+                                                       Pageable pageable,
+                                                       @PathVariable ServiceStatus status) {
+        return serviceService.findServicesByUserAndStatus(principal, pageable, status);
     }
 
     @GetMapping("/work-type/{workType}")
