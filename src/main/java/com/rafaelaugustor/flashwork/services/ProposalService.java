@@ -128,11 +128,11 @@ public class ProposalService {
                 .service(new ServiceRequestDTO(service))
                 .build();
         try {
-            digitalContractService.generateDocument(contractRequest);
+            digitalContractService.generateDocument(contractRequest, service.getId());
         } catch (Exception e) {
             throw new RuntimeException("Erro ao gerar o contrato", e);
         }
-  }
+    }
 
     public ProposalResponseDTO respondToProposal(UUID proposalId, ProposalStatus status, Principal principal) {
         var proposal = proposalRepository.findById(proposalId)
