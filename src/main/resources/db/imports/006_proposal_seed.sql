@@ -1,9 +1,9 @@
 -- Propostas para o serviço "Desenvolvimento de Website"
 INSERT INTO proposal (id, service_id, freelancer_id, status, offer_amount, message, requested_at, estimated_completion_time)
-VALUES ('c9a6e3b5-79b1-485a-bc8e-68b64c74a1f0', 'f9b00247-564c-4693-b0cd-397de71bae52', '003eced8-e3ae-4b24-b8d4-80cfc125151c', 'PENDING', 6500.00, 'Tenho experiência em desenvolvimento de websites responsivos e modernos.', NOW(), '2024-12-10');
+VALUES ('c9a6e3b5-79b1-485a-bc8e-68b64c74a1f0', 'cfc26888-20d4-4146-83e5-d98ffc2d4642', 'c7b3ef06-484e-4dc0-bd34-d1c7a0a4c376', 'PENDING', 6500.00, 'Tenho experiência em desenvolvimento de websites responsivos e modernos.', NOW(), '2024-12-10');
 
 INSERT INTO proposal (id, service_id, freelancer_id, status, offer_amount, message, requested_at, estimated_completion_time)
-VALUES ('2f89a6bb-92d0-46db-b8b2-738f557fd529', 'f9b00247-564c-4693-b0cd-397de71bae52', '003eced8-e3ae-4b24-b8d4-80cfc125151c', 'PENDING', 7000.00, 'Posso criar um website corporativo com funcionalidades avançadas.', NOW(), '2024-12-10');
+VALUES ('2f89a6bb-92d0-46db-b8b2-738f557fd529', 'cfc26888-20d4-4146-83e5-d98ffc2d4642', '003eced8-e3ae-4b24-b8d4-80cfc125151c', 'PENDING', 7000.00, 'Posso criar um website corporativo com funcionalidades avançadas.', NOW(), '2024-12-10');
 
 -- Propostas para o serviço "Pintura Residencial"
 INSERT INTO proposal (id, service_id, freelancer_id, status, offer_amount, message, requested_at, estimated_completion_time)
@@ -12,6 +12,9 @@ VALUES ('d324b5da-6d9c-47b5-8767-ff2b84b8be6c', 'dab38234-6f41-4ed7-b1b9-6227a8b
 INSERT INTO proposal (id, service_id, freelancer_id, status, offer_amount, message, requested_at, estimated_completion_time)
 VALUES ('9c8f4976-fb88-47fb-804b-e5c2897bc7b3', 'dab38234-6f41-4ed7-b1b9-6227a8be7da6', '317201ee-0bc6-45f1-bbfc-058f2d2a318a', 'PENDING', 4000.00, 'Posso realizar a pintura com acabamentos personalizados e entrega no prazo.', NOW(), '2024-12-15');
 
+-- Proposta para serviço Edição de Vídeos
+INSERT INTO proposal (id, service_id, freelancer_id, status, offer_amount, message, requested_at, estimated_completion_time)
+VALUES ('0e5f3d46-8b23-4f9a-ae2f-8973c6b9d07e', 'f9b00247-564c-4693-b0cd-397de71bae52', '19198073-7d10-4975-8e17-7c17e11c04de', 'PENDING', 3000, 'Posso realizar esse serviço com a maior cuidado', NOW(), '2024-12-15');
 -- Propostas para o serviço "Manutenção de Rede"
 INSERT INTO proposal (id, service_id, freelancer_id, status, offer_amount, message, requested_at, estimated_completion_time)
 VALUES ('0e3b7a2f-3090-4642-bff6-b8c3803e5c63', 'ecef1ade-75a1-45c9-9140-1772a1a0dcf3', '003eced8-e3ae-4b24-b8d4-80cfc125151c', 'PENDING', 5000.00, 'Expertise em otimização e correção de redes internas empresariais.', NOW(), '2024-12-20');
