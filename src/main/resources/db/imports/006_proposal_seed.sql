@@ -1,9 +1,9 @@
 -- Propostas para o serviço "Desenvolvimento de Website"
 INSERT INTO proposal (id, service_id, freelancer_id, status, offer_amount, message, requested_at, estimated_completion_time)
-VALUES ('c9a6e3b5-79b1-485a-bc8e-68b64c74a1f0', 'cfc26888-20d4-4146-83e5-d98ffc2d4642', 'c7b3ef06-484e-4dc0-bd34-d1c7a0a4c376', 'PENDING', 6500.00, 'Tenho experiência em desenvolvimento de websites responsivos e modernos.', NOW(), '2024-12-10');
+VALUES ('c9a6e3b5-79b1-485a-bc8e-68b64c74a1f0', 'f9b00247-564c-4693-b0cd-397de71bae52', '003eced8-e3ae-4b24-b8d4-80cfc125151c', 'PENDING', 6500.00, 'Tenho experiência em desenvolvimento de websites responsivos e modernos.', NOW(), '2024-12-10');
 
 INSERT INTO proposal (id, service_id, freelancer_id, status, offer_amount, message, requested_at, estimated_completion_time)
-VALUES ('2f89a6bb-92d0-46db-b8b2-738f557fd529', 'cfc26888-20d4-4146-83e5-d98ffc2d4642', '003eced8-e3ae-4b24-b8d4-80cfc125151c', 'PENDING', 7000.00, 'Posso criar um website corporativo com funcionalidades avançadas.', NOW(), '2024-12-10');
+VALUES ('2f89a6bb-92d0-46db-b8b2-738f557fd529', 'f9b00247-564c-4693-b0cd-397de71bae52', '003eced8-e3ae-4b24-b8d4-80cfc125151c', 'PENDING', 7000.00, 'Posso criar um website corporativo com funcionalidades avançadas.', NOW(), '2024-12-10');
 
 -- Propostas para o serviço "Pintura Residencial"
 INSERT INTO proposal (id, service_id, freelancer_id, status, offer_amount, message, requested_at, estimated_completion_time)
